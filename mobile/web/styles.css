@@ -1,0 +1,810 @@
+/* ============================================================
+   Cocuna · soft serif wellness · v2 redesign
+   Three directions: Atrium · Almanac · Aurora
+   ============================================================ */
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--page);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; padding: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+
+/* ============ DESIGN CANVAS PAGE (outside phones) ============ */
+:root {
+  --page: #ECE7DC;          /* canvas backdrop */
+  --ink: #2A2723;
+  --ink-soft: #6E6862;
+  --ink-faint: #A29D95;
+}
+
+/* ============ DIRECTION TOKENS (applied per phone) ============ */
+
+/* Direction 1: ATRIUM (refined current) */
+.dir-atrium {
+  --bg:           #F7F4EE;
+  --surface:      #FFFFFF;
+  --surface-sunk: #EFEBE4;
+  --accent:       #B5A8DC;   /* lavender */
+  --accent-soft:  #D8D0EE;
+  --accent-mint:  #9DCBB0;
+  --accent-mint-soft: #C8E2D2;
+  --accent-peach: #F8D9C5;
+  --accent-rose:  #F3D7DC;
+  --accent-butter:#F0E3B1;
+  --text:         #2A2723;
+  --text-muted:   #6E6862;
+  --text-faint:   #A29D95;
+  --hairline:     rgba(42, 39, 35, 0.10);
+  --hairline-soft:rgba(42, 39, 35, 0.06);
+  --hairline-strong: rgba(42, 39, 35, 0.16);
+  --serif: 'Fraunces', 'Times New Roman', serif;
+  --sans:  'DM Sans', system-ui, sans-serif;
+  --radius-card: 22px;
+  --radius-pill: 999px;
+  --shadow-soft: 0 10px 30px rgba(42, 39, 35, 0.06);
+}
+
+/* Direction 2: ALMANAC (editorial / magazine) */
+.dir-almanac {
+  --bg:           #EFEAE0;
+  --surface:      #F8F4EA;
+  --surface-sunk: #E6E0D2;
+  --accent:       #1F1B16;   /* ink as primary */
+  --accent-soft:  #F0E3B1;   /* butter */
+  --accent-mint:  #6BA386;
+  --accent-mint-soft: #B6D2BD;
+  --accent-peach: #E8B594;
+  --accent-rose:  #D89A9F;
+  --accent-butter:#E8D88A;
+  --text:         #1F1B16;
+  --text-muted:   #5A544C;
+  --text-faint:   #8E867A;
+  --hairline:     rgba(31, 27, 22, 0.16);
+  --hairline-soft:rgba(31, 27, 22, 0.08);
+  --hairline-strong: rgba(31, 27, 22, 0.30);
+  --serif: 'Fraunces', 'Times New Roman', serif;
+  --sans:  'DM Sans', system-ui, sans-serif;
+  --radius-card: 4px;
+  --radius-pill: 4px;
+  --shadow-soft: none;
+}
+
+/* Direction 3: AURORA (dreamier, gradient washes) */
+.dir-aurora {
+  --bg:           #F5F4F0;
+  --surface:      #FFFFFF;
+  --surface-sunk: #EDECE6;
+  --accent:       #C4A6D6;   /* dusty lavender */
+  --accent-soft:  #E4D4EB;
+  --accent-mint:  #9FC9B2;
+  --accent-mint-soft: #D4E8DC;
+  --accent-peach: #F2C5A8;
+  --accent-rose:  #EFC1C8;
+  --accent-butter:#F5E4B0;
+  --text:         #2C2520;
+  --text-muted:   #74695F;
+  --text-faint:   #ABA298;
+  --hairline:     rgba(44, 37, 32, 0.08);
+  --hairline-soft:rgba(44, 37, 32, 0.05);
+  --hairline-strong: rgba(44, 37, 32, 0.14);
+  --serif: 'Fraunces', 'Times New Roman', serif;
+  --sans:  'DM Sans', system-ui, sans-serif;
+  --radius-card: 28px;
+  --radius-pill: 999px;
+  --shadow-soft: 0 20px 50px rgba(180, 160, 200, 0.18);
+}
+
+/* ============ TRIAGE COLOR SCALE (shared across directions) ============ */
+.dir-atrium, .dir-almanac, .dir-aurora {
+  --triage-red:    #D8525E;
+  --triage-orange: #E89146;
+  --triage-yellow: #BFA449;
+  --triage-green:  #6FB489;
+  --triage-gray:   #8A95A3;
+}
+
+/* ============ PHONE FRAME ============ */
+.phone-frame {
+  width: 390px;
+  height: 844px;
+  background: var(--bg);
+  border-radius: 48px;
+  box-shadow:
+    0 30px 80px rgba(42, 39, 35, 0.14),
+    0 2px 8px rgba(42, 39, 35, 0.06),
+    inset 0 0 0 1px rgba(42, 39, 35, 0.10);
+  padding: 10px;
+  position: relative;
+  overflow: hidden;
+}
+.phone-screen {
+  width: 100%;
+  height: 100%;
+  background: var(--bg);
+  border-radius: 40px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.phone-notch {
+  position: absolute;
+  top: 18px; left: 50%;
+  transform: translateX(-50%);
+  width: 110px; height: 28px;
+  background: #0F0D0B;
+  border-radius: 20px;
+  z-index: 60;
+  pointer-events: none;
+}
+
+/* Status bar */
+.status-bar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 28px 4px;
+  font-family: var(--sans);
+  font-size: 14px; font-weight: 600;
+  color: var(--text);
+  flex-shrink: 0;
+  position: relative; z-index: 5;
+}
+.status-glyphs { display: flex; gap: 5px; align-items: center; }
+.status-glyphs svg { display: block; }
+.status-bar .time { font-variant-numeric: tabular-nums; }
+
+/* Screen body (scrollable) */
+.screen-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+}
+.screen-body::-webkit-scrollbar { width: 0; height: 0; }
+.screen-body { scrollbar-width: none; }
+
+/* Bottom nav */
+.bottom-nav {
+  flex-shrink: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 10px 16px 22px;
+  background: var(--bg);
+  border-top: 1px solid var(--hairline-soft);
+  position: relative;
+  z-index: 5;
+}
+.dir-almanac .bottom-nav { border-top: 1px solid var(--hairline); }
+.nav-item {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 6px 0;
+  color: var(--text-faint);
+  transition: color 200ms;
+}
+.nav-item.active { color: var(--text); }
+.dir-almanac .nav-item.active { color: var(--accent); }
+.nav-label {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* ============ TYPOGRAPHY HELPERS ============ */
+.serif { font-family: var(--serif); }
+.sans  { font-family: var(--sans);  }
+.eyebrow {
+  font-family: var(--sans);
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin: 0;
+}
+.dir-almanac .eyebrow { letter-spacing: 0.22em; font-weight: 600; color: var(--text); }
+
+.headline {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96;
+  font-weight: 600;
+  letter-spacing: -0.022em;
+  line-height: 1.06;
+  margin: 0;
+  color: var(--text);
+  text-wrap: pretty;
+}
+.dir-aurora .headline { font-weight: 500; letter-spacing: -0.018em; }
+.dir-almanac .headline {
+  font-variation-settings: "opsz" 144;
+  font-weight: 600;
+  letter-spacing: -0.028em;
+  line-height: 1.0;
+}
+
+.subhead {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 60;
+  font-weight: 500;
+  font-size: 19px;
+  line-height: 1.25;
+  letter-spacing: -0.012em;
+  margin: 0;
+  color: var(--text);
+}
+.dir-almanac .subhead em { font-style: italic; color: var(--text-muted); }
+
+.body {
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-muted);
+  margin: 0;
+}
+.body-tight { font-size: 13px; line-height: 1.5; }
+
+.label-cap {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ============ FLEX / GRID HELPERS ============ */
+.row { display: flex; }
+.col { display: flex; flex-direction: column; }
+.center { align-items: center; }
+.between { justify-content: space-between; }
+.jc { justify-content: center; }
+.wrap { flex-wrap: wrap; }
+.g-1 { gap: 4px; } .g-2 { gap: 8px; } .g-3 { gap: 12px; } .g-4 { gap: 16px; } .g-5 { gap: 20px; } .g-6 { gap: 24px; } .g-7 { gap: 32px; }
+.f1 { flex: 1; }
+
+/* ============ TRIAGE PILLS ============ */
+.triage-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+}
+.triage-red    { background: var(--triage-red); }
+.triage-orange { background: var(--triage-orange); }
+.triage-yellow { background: var(--triage-yellow); }
+.triage-green  { background: var(--triage-green); }
+.triage-gray   { background: var(--triage-gray); }
+
+.bg-triage-red    { background: var(--triage-red); color: white; }
+.bg-triage-orange { background: var(--triage-orange); color: white; }
+.bg-triage-yellow { background: var(--triage-yellow); color: white; }
+.bg-triage-green  { background: var(--triage-green); color: white; }
+.bg-triage-gray   { background: var(--triage-gray); color: white; }
+
+.tone-red    { color: var(--triage-red); }
+.tone-orange { color: var(--triage-orange); }
+.tone-yellow { color: var(--triage-yellow); }
+.tone-green  { color: var(--triage-green); }
+.tone-gray   { color: var(--triage-gray); }
+
+/* ============ COMMON COMPONENTS ============ */
+.pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--text);
+  white-space: nowrap;
+}
+.dir-almanac .pill { background: transparent; border-color: var(--hairline-strong); }
+
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  font-family: var(--sans);
+  font-size: 11.5px;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 160ms;
+}
+.chip:hover { background: var(--surface-sunk); }
+.chip.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--hairline-soft);
+  border-radius: var(--radius-card);
+  padding: 18px;
+}
+.dir-almanac .card { border: 1px solid var(--hairline-strong); }
+.dir-aurora .card { border: none; box-shadow: var(--shadow-soft); }
+
+.card-outline {
+  background: transparent;
+  border: 1px solid var(--hairline);
+}
+
+.divider { height: 1px; background: var(--hairline-soft); border: none; margin: 0; }
+.divider-strong { height: 1px; background: var(--hairline); border: none; margin: 0; }
+
+/* Primary button */
+.btn-primary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 14px 20px;
+  border-radius: var(--radius-pill);
+  background: var(--text);
+  color: var(--bg);
+  font-family: var(--sans);
+  font-size: 14px; font-weight: 600;
+  width: 100%;
+  cursor: pointer;
+  transition: transform 160ms, opacity 160ms;
+}
+.btn-primary:hover { opacity: 0.92; }
+.btn-primary:active { transform: scale(0.98); }
+.dir-almanac .btn-primary { border-radius: 4px; }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 12px 18px;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  border: 1px solid var(--hairline-strong);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 14px; font-weight: 500;
+  cursor: pointer;
+}
+.dir-almanac .btn-ghost { border-radius: 4px; }
+
+/* CTA card (accent block, used on home) */
+.cta-block {
+  display: flex; align-items: center; gap: 14px;
+  padding: 18px 20px;
+  border-radius: var(--radius-card);
+  background: var(--accent-soft);
+  cursor: pointer;
+  transition: transform 200ms;
+}
+.cta-block:active { transform: scale(0.985); }
+.cta-arrow {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--surface);
+  display: grid; place-items: center;
+  flex-shrink: 0;
+  font-size: 16px;
+  color: var(--text);
+}
+.dir-almanac .cta-block { background: var(--accent-soft); border-radius: 4px; }
+.dir-almanac .cta-arrow { background: var(--text); color: var(--bg); border-radius: 4px; }
+
+/* Source line (clinical credibility) */
+.source-line {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--sans);
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  color: var(--text-faint);
+}
+.source-line .dot-sep { color: var(--text-faint); opacity: 0.6; }
+
+/* Mood chip */
+.mood-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.mood-chip {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 12px 4px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 14px;
+  transition: transform 150ms, background 150ms, border-color 150ms;
+}
+.mood-chip:hover { transform: translateY(-2px); }
+.mood-chip.selected {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+.dir-almanac .mood-chip { border-radius: 2px; }
+.dir-almanac .mood-chip.selected { background: var(--text); color: var(--bg); border-color: var(--text); }
+.dir-almanac .mood-chip.selected .mood-label { color: var(--bg); }
+.mood-emoji { font-size: 22px; line-height: 1; }
+.mood-label { font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; }
+.mood-chip.selected .mood-label { color: var(--text); font-weight: 600; }
+
+/* ============ MOTIF: BREATHING ORB / SUNDIAL / AURORA ============ */
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50%      { transform: scale(1.08); opacity: 1; }
+}
+@keyframes breathe-soft {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50%      { transform: scale(1.05); opacity: 1; }
+}
+@keyframes orbit-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes shimmer {
+  0%, 100% { transform: translateY(0); opacity: 0.7; }
+  50%      { transform: translateY(-6px); opacity: 1; }
+}
+
+.motif { position: relative; display: grid; place-items: center; }
+
+/* Atrium: breathing orb (concentric circles, pulse) */
+.motif-orb {
+  width: 100%; height: 100%;
+  position: relative;
+}
+.motif-orb .ring {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--accent);
+}
+.motif-orb .ring-1 { animation: breathe 4500ms ease-in-out infinite; opacity: 0.35; }
+.motif-orb .ring-2 { inset: 12%; animation: breathe 4500ms ease-in-out infinite 700ms; opacity: 0.55; border-color: var(--accent); }
+.motif-orb .ring-3 { inset: 26%; animation: breathe 4500ms ease-in-out infinite 1400ms; opacity: 0.75; border-color: var(--accent-mint); }
+.motif-orb .core {
+  position: absolute; inset: 38%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--accent-soft), var(--accent) 70%);
+  animation: breathe-soft 4500ms ease-in-out infinite 2100ms;
+  box-shadow: 0 6px 18px rgba(181, 168, 220, 0.4);
+}
+
+/* Almanac: sundial (notched ring + still center) */
+.motif-sundial {
+  width: 100%; height: 100%;
+  position: relative;
+  color: var(--text);
+}
+.motif-sundial .ring-outer {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  border: 1px solid var(--text);
+  opacity: 0.9;
+}
+.motif-sundial .center-mark {
+  position: absolute;
+  inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144;
+  font-weight: 500;
+  font-size: 38px;
+  line-height: 1;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  pointer-events: none;
+}
+.motif-sundial .center-mark .small {
+  font-size: 10px;
+  font-family: var(--sans);
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-muted);
+}
+
+/* Aurora: real Cocuna logo with breathing motion + soft aurora halo behind */
+@keyframes aurora-breath {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.03); }
+}
+@keyframes aurora-sway {
+  0%, 100% { transform: translateY(0) rotate(-0.6deg); }
+  50%      { transform: translateY(-2%) rotate(0.6deg); }
+}
+@keyframes aurora-drift-1 {
+  0%   { transform: translate(0%, 0%) scale(1); opacity: 0.75; }
+  50%  { transform: translate(-7%, 6%) scale(1.10); opacity: 0.95; }
+  100% { transform: translate(5%, -4%) scale(0.96); opacity: 0.72; }
+}
+@keyframes aurora-drift-2 {
+  0%   { transform: translate(0%, 0%) scale(1); opacity: 0.65; }
+  50%  { transform: translate(8%, -5%) scale(1.08); opacity: 0.85; }
+  100% { transform: translate(-4%, 7%) scale(0.94); opacity: 0.7; }
+}
+
+/* Onboarding entrance choreography */
+@keyframes logo-enter {
+  0%   { opacity: 0; transform: scale(0.35) translateY(34px) rotate(-12deg); }
+  45%  { opacity: 1; transform: scale(1.10) translateY(0) rotate(3deg); }
+  72%  { transform: scale(0.94) rotate(-1.5deg); }
+  100% { transform: scale(1) rotate(-0.6deg); opacity: 1; }
+}
+@keyframes ripple-bloom {
+  0%   { opacity: 0; transform: scale(0.5); }
+  20%  { opacity: 0.7; }
+  100% { opacity: 0; transform: scale(2.6); }
+}
+@keyframes halo-bloom {
+  0%   { opacity: 0; transform: scale(0.4); }
+  60%  { opacity: 1; transform: scale(1.05); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.motif-aurora {
+  width: 100%; height: 100%;
+  position: relative;
+  display: grid; place-items: center;
+}
+.motif-aurora .aurora-halo {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(22px);
+  pointer-events: none;
+  z-index: 0;
+}
+.motif-aurora .blob-1 {
+  width: 95%; height: 95%; left: 2.5%; top: -2%;
+  background: radial-gradient(circle, var(--accent-soft) 0%, transparent 60%);
+  animation: aurora-drift-1 11000ms ease-in-out infinite alternate;
+}
+.motif-aurora .blob-2 {
+  width: 85%; height: 85%; left: -8%; top: 22%;
+  background: radial-gradient(circle, var(--accent-mint-soft) 0%, transparent 60%);
+  animation: aurora-drift-2 14000ms ease-in-out infinite alternate;
+}
+.motif-aurora .cocuna-logo {
+  position: relative;
+  z-index: 1;
+  width: 76%;
+  height: 76%;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 18px rgba(124, 110, 174, 0.20));
+  animation: aurora-sway 7000ms ease-in-out infinite, aurora-breath 5500ms ease-in-out infinite;
+  transform-origin: center;
+  will-change: transform;
+}
+
+/* Onboarding entrance: ripples + bloom-in halo + logo cradle reveal */
+.motif-aurora.aurora-enter .aurora-ripple {
+  position: absolute;
+  inset: 8%;
+  border-radius: 50%;
+  border: 1.5px solid var(--accent);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.motif-aurora.aurora-enter .ripple-1 {
+  animation: ripple-bloom 1900ms cubic-bezier(0.2, 0.7, 0.2, 1) 350ms 1 both;
+}
+.motif-aurora.aurora-enter .ripple-2 {
+  border-color: var(--accent-mint);
+  animation: ripple-bloom 1900ms cubic-bezier(0.2, 0.7, 0.2, 1) 600ms 1 both;
+}
+.motif-aurora.aurora-enter .ripple-3 {
+  border-color: var(--accent-soft);
+  border-width: 2px;
+  animation: ripple-bloom 1900ms cubic-bezier(0.2, 0.7, 0.2, 1) 850ms 1 both;
+}
+.motif-aurora.aurora-enter .blob-1 {
+  animation: halo-bloom 900ms cubic-bezier(0.2, 0.7, 0.2, 1) 200ms both,
+             aurora-drift-1 11000ms ease-in-out 1100ms infinite alternate;
+}
+.motif-aurora.aurora-enter .blob-2 {
+  animation: halo-bloom 900ms cubic-bezier(0.2, 0.7, 0.2, 1) 350ms both,
+             aurora-drift-2 14000ms ease-in-out 1250ms infinite alternate;
+}
+.motif-aurora.aurora-enter .cocuna-logo {
+  animation:
+    logo-enter 1700ms cubic-bezier(0.2, 0.7, 0.2, 1) both,
+    aurora-sway 7000ms ease-in-out 1700ms infinite,
+    aurora-breath 5500ms ease-in-out 1700ms infinite;
+}
+
+/* ============ EXPERT CARD ============ */
+.expert-card {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px;
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--hairline-soft);
+}
+.dir-almanac .expert-card { border: 1px solid var(--hairline-strong); border-radius: 2px; }
+.expert-avatar {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  display: grid; place-items: center;
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--text);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.expert-avatar.has-photo {
+  background: transparent;
+}
+.expert-avatar img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.dir-almanac .expert-avatar { border-radius: 2px; background: var(--text); color: var(--bg); }
+.expert-meta { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+.expert-name { font-family: var(--sans); font-weight: 600; font-size: 14px; color: var(--text); }
+.expert-cred { font-family: var(--sans); font-size: 11.5px; color: var(--text-muted); }
+.expert-status { font-family: var(--sans); font-size: 11px; color: var(--triage-green); display: flex; align-items: center; gap: 6px; }
+
+/* ============ INPUT ============ */
+.input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 1.5px solid var(--hairline);
+  font-family: var(--sans);
+  font-size: 15px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 160ms;
+}
+.input::placeholder { color: var(--text-faint); }
+.input:focus { border-color: var(--accent); }
+.dir-almanac .input { border-radius: 2px; border-width: 1px; border-color: var(--text); background: transparent; }
+.dir-aurora .input { background: var(--surface); border-color: var(--hairline); }
+
+/* ============ ANIMATION HELPERS ============ */
+.fade-in { animation: fade-in 320ms ease-out; }
+@keyframes fade-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+.slide-up { animation: slide-up 420ms cubic-bezier(0.2, 0.7, 0.2, 1); }
+@keyframes slide-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+.scale-in { animation: scale-in 280ms cubic-bezier(0.2, 0.7, 0.2, 1); }
+@keyframes scale-in { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+
+/* ============ BABY ILLUSTRATIONS ANIMATION ============ */
+@keyframes womb-breath {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.02); }
+}
+@keyframes amniotic-drift {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0.7; }
+  33%      { transform: translateY(-3px) translateX(2px); opacity: 1; }
+  66%      { transform: translateY(2px) translateX(-1px); opacity: 0.85; }
+}
+/* Baby gently floats up/down + side to side like in amniotic fluid */
+@keyframes baby-float {
+  0%, 100% { transform: translate(0, 0); }
+  25%      { transform: translate(-1.5px, -2px); }
+  50%      { transform: translate(2px, 1px); }
+  75%      { transform: translate(-1px, 2px); }
+}
+/* Image-based baby — slight scale + rotation drift, like swimming in fluid */
+@keyframes baby-float-img {
+  0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  20%      { transform: translate(-3px, -2px) rotate(-1.5deg) scale(1.012); }
+  40%      { transform: translate(2px, -3px) rotate(1deg) scale(1.018); }
+  60%      { transform: translate(3px, 2px) rotate(2deg) scale(1.01); }
+  80%      { transform: translate(-2px, 3px) rotate(-1deg) scale(1.005); }
+}
+/* Baby slowly tilts/turns its head as if shifting position */
+@keyframes baby-tilt {
+  0%, 100% { transform: rotate(0deg); }
+  40%      { transform: rotate(2deg); }
+  70%      { transform: rotate(-1.5deg); }
+}
+/* (kept for backward compat in case other parts reference) */
+@keyframes baby-kick {
+  0%, 80%, 100% { transform: rotate(0deg) translateY(0); }
+  85%           { transform: rotate(2.5deg) translateY(-1.5px); }
+  90%           { transform: rotate(-1.5deg) translateY(0.5px); }
+  95%           { transform: rotate(1deg) translateY(0); }
+}
+@keyframes heart-beat {
+  0%, 60%, 100% { transform: scale(1); }
+  10%           { transform: scale(1.18); }
+  20%           { transform: scale(1); }
+  30%           { transform: scale(1.12); }
+  40%           { transform: scale(1); }
+}
+@keyframes halo-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50%      { transform: scale(1.06); opacity: 1; }
+}
+@keyframes baby-wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  50%      { transform: rotate(-1.4deg); }
+}
+@keyframes baby-bob {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-2.5px) rotate(1.4deg); }
+}
+@keyframes arm-wave {
+  0%, 100% { transform: rotate(0deg); }
+  25%      { transform: rotate(-18deg); }
+  50%      { transform: rotate(8deg); }
+  75%      { transform: rotate(-12deg); }
+}
+@keyframes blink {
+  0%, 47%, 53%, 100% { transform: scaleY(1); }
+  50%                { transform: scaleY(0.1); }
+}
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0.5); }
+  50%      { opacity: 1; transform: scale(1.2); }
+}
+
+.fade-in { animation: fade-in 320ms ease-out; }
+@keyframes gentle-pulse {
+  0%, 100% { box-shadow: 0 8px 22px rgba(216, 82, 94, 0.10); }
+  50%      { box-shadow: 0 12px 28px rgba(216, 82, 94, 0.20); }
+}
+@keyframes mb-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
+@keyframes mb-shadow {
+  0%, 100% { transform: scaleX(1); opacity: 0.18; }
+  50%      { transform: scaleX(0.78); opacity: 0.10; }
+}
+@keyframes mb-wobble {
+  0%, 100% { transform: scale(1, 1) rotate(0deg); }
+  25%      { transform: scale(1.04, 0.96) rotate(-1.5deg); }
+  50%      { transform: scale(0.97, 1.03) rotate(0deg); }
+  75%      { transform: scale(1.02, 0.98) rotate(1.5deg); }
+}
+@keyframes mb-blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  94%, 96%      { transform: scaleY(0.1); }
+}
+@keyframes mb-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.55; }
+  50%      { transform: scale(1.12); opacity: 0; }
+}
+
+/* Voice waveform */
+@keyframes wave-bar {
+  0%   { transform: scaleY(0.4); }
+  100% { transform: scaleY(1.6); }
+}
+
+/* Direction header (above each phone in canvas) */
+.dir-header {
+  text-align: center;
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.dir-name {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: "opsz" 96;
+  font-weight: 600;
+  font-size: 26px;
+  letter-spacing: -0.018em;
+  color: var(--ink);
+  margin: 0;
+}
+.dir-desc {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+.dir-tag {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 4px;
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cocuna · mother app</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    background: radial-gradient(ellipse at 30% 20%, rgba(196, 166, 214, 0.18) 0%, transparent 55%),
+                radial-gradient(ellipse at 70% 80%, rgba(159, 201, 178, 0.16) 0%, transparent 55%),
+                #F5F4F0;
+  }
+  .page-bg-shimmer {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background:
+      radial-gradient(ellipse at var(--bg-x1, 30%) var(--bg-y1, 20%), rgba(196, 166, 214, 0.12) 0%, transparent 50%),
+      radial-gradient(ellipse at var(--bg-x2, 70%) var(--bg-y2, 80%), rgba(159, 201, 178, 0.10) 0%, transparent 50%);
+    animation: bg-drift 30s ease-in-out infinite alternate;
+  }
+  @keyframes bg-drift {
+    0%   { background-position: 0% 0%, 0% 0%; opacity: 0.6; }
+    100% { background-position: 20% 10%, -10% -5%; opacity: 1; }
+  }
+  #root { position: relative; z-index: 1; }
+</style>
+</head>
+<body>
+
+<div class="page-bg-shimmer"></div>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="data.jsx"></script>
+<script type="text/babel" src="motif.jsx"></script>
+<script type="text/babel" src="avatar.jsx"></script>
+<script type="text/babel" src="babies.jsx"></script>
+<script type="text/babel" src="blobs.jsx"></script>
+<script type="text/babel" src="chrome.jsx"></script>
+<script type="text/babel" src="screens-demo.jsx"></script>
+<script type="text/babel" src="screens-home.jsx"></script>
+<script type="text/babel" src="screens-ask.jsx"></script>
+<script type="text/babel" src="screens-meetings.jsx"></script>
+<script type="text/babel" src="screens-extras.jsx"></script>
+<script type="text/babel" src="app.jsx"></script>
+
+<script type="text/babel" data-presets="env,react">
+const { PhoneApp } = window;
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <PhoneApp direction="aurora" />
+);
+</script>
+
+</body>
+</html>
