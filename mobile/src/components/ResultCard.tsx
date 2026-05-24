@@ -13,14 +13,14 @@ import type { TriageDecision, TriageLevel } from '@/lib/triage';
 
 const HEADLINE: Record<TriageLevel, string> = {
   red: 'Contact your clinic now',
-  orange: 'Same-day review',
+  orange: 'Same day review',
   yellow: 'Schedule a clinic review',
-  green: 'Steady — self-care',
+  green: 'Steady. Self care.',
   gray: 'A human will review this',
 };
 
 const PROSE_LABEL: Record<TriageLevel, string> = {
-  red: 'Urgent / emergency',
+  red: 'Urgent · emergency',
   orange: 'Needs clinical review',
   yellow: 'Needs support',
   green: 'Normal',

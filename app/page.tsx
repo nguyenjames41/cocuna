@@ -39,7 +39,7 @@ async function fetchLiveTriages(): Promise<LiveTriage[]> {
     return data.map((r) => ({
       id: r.id as string,
       level: r.level as TriageLevel,
-      reason: (r.reason as string) ?? "—",
+      reason: (r.reason as string) ?? "Reason pending",
       recommended: (r.recommended_action as string) ?? "",
       source: (r.source_protocol as string) ?? "",
       createdAt: r.created_at as string,

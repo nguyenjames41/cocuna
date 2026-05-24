@@ -27,7 +27,7 @@ export default function CompanionScreen() {
         state.bpStreakDays >= 3
           ? `BP logged ${state.bpStreakDays} days in a row.`
           : null,
-        `Week ${state.weeksPregnant} — almost there.`,
+        `Week ${state.weeksPregnant}. Almost there.`,
       ]
     : [
         state.bpStreakDays >= 3
@@ -36,7 +36,7 @@ export default function CompanionScreen() {
         state.logsToday.length >= 2
           ? 'You checked in twice today.'
           : 'You showed up today.',
-        `Week ${week} postpartum — quietly arrived.`,
+        `Week ${week} postpartum. Quietly arrived.`,
       ];
 
   const filtered = recognitions.filter(Boolean) as string[];
@@ -63,7 +63,7 @@ export default function CompanionScreen() {
             <Text style={styles.eyebrow}>Companion</Text>
             <Text style={styles.title}>Steady, with you.</Text>
             <Text style={styles.lede}>
-              A quiet record of how you’ve shown up. Not a score, not a streak — just what
+              A quiet record of how you’ve shown up. Not a score, not a streak. Just what
               has been true.
             </Text>
           </View>
@@ -86,8 +86,8 @@ export default function CompanionScreen() {
           </Surface>
 
           <Text style={styles.disclaimer}>
-            Cocuna acknowledges the work you’re doing. We don’t take credit for your safety —
-            you’re the one keeping yourself well. We’re a hand to hold.
+            Cocuna acknowledges the work you’re doing. We don’t take credit for your safety.
+            You’re the one keeping yourself well. We’re a hand to hold.
           </Text>
         </View>
       </ScrollView>

@@ -73,11 +73,11 @@ export const PATIENTS: Patient[] = [
       { input: "Gestational hypertension history", reason: "Risk factor amplifies BP signal" },
     ],
     recommendedAction: "Call now / send to L&D",
-    whenToEscalate: "Any new neurologic symptoms — call 911",
+    whenToEscalate: "Any new neurologic symptoms. Call 911.",
     currentIssue: "Severe headache, visual spots, BP 158/102 at home",
     latestVitals: "BP 158/102 · repeated 154/100 · HR 92",
     babySummary: "Feeding normally, 7 wet diapers/day",
-    moodScreen: "EPDS 8, no self-harm",
+    moodScreen: "EPDS 8, no self harm",
     wearable: {
       restingHr: 92,
       restingHrTrend: "up",
@@ -113,7 +113,7 @@ export const PATIENTS: Patient[] = [
       },
     ],
     recent: [
-      { date: "08:14 today", kind: "triage", text: "Cocuna RAD: Red — postpartum HTN red flags" },
+      { date: "08:14 today", kind: "triage", text: "Cocuna RAD: Red. Postpartum HTN red flags." },
       { date: "08:11 today", kind: "log", text: "BP logged 158/102" },
       { date: "07:42 today", kind: "message", text: '"I have a bad headache and I\'m seeing spots…"' },
       { date: "Yesterday 21:30", kind: "log", text: "BP logged 142/94" },
@@ -131,12 +131,12 @@ export const PATIENTS: Patient[] = [
     triage: "orange",
     triageReason: "PHQ-9 elevated + insomnia + GDM tracking dropping",
     triageContributions: [
-      { input: "PHQ-9 = 14", reason: "Moderate depression — same-day behavioural review" },
+      { input: "PHQ 9 = 14", reason: "Moderate depression. Same day behavioural review." },
       { input: "Sleep <5h × 5 nights", reason: "Persistent insomnia, third trimester" },
       { input: "Glucose log gap (3 days)", reason: "GDM adherence concern" },
     ],
-    recommendedAction: "Same-day behavioural review · GDM nurse follow-up",
-    whenToEscalate: "If any self-harm ideation or vital sign deterioration",
+    recommendedAction: "Same day behavioural review · GDM nurse follow up",
+    whenToEscalate: "If any self harm ideation or vital sign deterioration",
     currentIssue: "Mood scoring high, sleep collapsed, missing GDM checks",
     latestVitals: "BP 124/78 · HR 76 · last fasting glucose 98 (3d ago)",
     babySummary: "Movement counts within range, last NST normal",
@@ -169,13 +169,13 @@ export const PATIENTS: Patient[] = [
       },
     ],
     recent: [
-      { date: "Today 09:02", kind: "triage", text: "Cocuna RAD: Orange — mood + sleep + GDM gap" },
+      { date: "Today 09:02", kind: "triage", text: "Cocuna RAD: Orange. Mood + sleep + GDM gap." },
       { date: "Yesterday", kind: "log", text: "Mood logged 3/10" },
       { date: "3 days ago", kind: "log", text: "Glucose 98 fasting" },
       { date: "1 week ago", kind: "visit", text: "Antenatal visit · BP normal" },
     ],
     qualitative:
-      "She describes herself as \"holding it together for everyone\" but her self-reports say otherwise. Loves the baby, but the third trimester is wearing through her usual coping. Has not asked for mental-health support — would likely accept if offered gently.",
+      "She describes herself as \"holding it together for everyone\" but her self reports say otherwise. Loves the baby, but the third trimester is wearing through her usual coping. Has not asked for mental health support; would likely accept if offered gently.",
   },
   {
     id: "emily-t",
@@ -190,7 +190,7 @@ export const PATIENTS: Patient[] = [
       { input: "Nipple pain (5/10)", reason: "Possible latch issue or early mastitis" },
       { input: "Supply self-rated low", reason: "Common 4wk concern · lactation review" },
     ],
-    recommendedAction: "Lactation video consult within 24-48 hours",
+    recommendedAction: "Lactation video consult within 24 to 48 hours",
     whenToEscalate: "Fever, breast redness, hard lump → urgent",
     currentIssue: "Painful feeds, worried about supply",
     latestVitals: "BP 118/74 · HR 72 · no fever",
@@ -224,12 +224,12 @@ export const PATIENTS: Patient[] = [
       },
     ],
     recent: [
-      { date: "Today 11:24", kind: "triage", text: "Cocuna RAD: Yellow — lactation review" },
+      { date: "Today 11:24", kind: "triage", text: "Cocuna RAD: Yellow. Lactation review." },
       { date: "Today 11:20", kind: "message", text: '"Feeding hurts again. Is my supply low?"' },
       { date: "Yesterday", kind: "log", text: "Mood logged 6/10" },
     ],
     qualitative:
-      "Quietly capable. Reports calmly even when something is hurting. Pain is real but her tone hides it — worth a lactation consult who'll examine the latch.",
+      "Quietly capable. Reports calmly even when something is hurting. Pain is real but her tone hides it. Worth a lactation consult who'll examine the latch.",
   },
   {
     id: "jordan-b",
@@ -271,12 +271,12 @@ export const PATIENTS: Patient[] = [
       },
     ],
     recent: [
-      { date: "Today 07:48", kind: "triage", text: "Cocuna RAD: Green — education sent" },
-      { date: "Today 07:46", kind: "message", text: '"Baby spits up after every feed — should I worry?"' },
+      { date: "Today 07:48", kind: "triage", text: "Cocuna RAD: Green. Education sent." },
+      { date: "Today 07:46", kind: "message", text: '"Baby spits up after every feed. Should I worry?"' },
       { date: "Yesterday", kind: "log", text: "Feed logged · 7am" },
     ],
     qualitative:
-      "Confident and asking the right questions early. Loves having someone to check normal-vs-not-normal with — that's most of what she needs from us this month.",
+      "Confident and asking the right questions early. Loves having someone to check normal vs not normal with. That's most of what she needs from us this month.",
   },
 ];
 
@@ -289,5 +289,5 @@ export function generateClinicianSummary(p: Patient): string {
   const baby = p.babySummary ? ` Baby: ${p.babySummary.toLowerCase()}.` : "";
   const mood = p.moodScreen ? ` Mood screen ${p.moodScreen}.` : "";
   const action = p.recommendedAction.toLowerCase();
-  return `${p.name}, ${p.stageDetail.toLowerCase()}${p.delivery ? ` after ${p.delivery.toLowerCase()}` : ""}${risk}. Current issue: ${p.currentIssue.toLowerCase()}.${p.latestVitals ? ` ${p.latestVitals}.` : ""}${baby}${mood} Cocuna triage: ${TRIAGE_LABEL[p.triage]} — ${p.triageReason}. Recommended action: ${action}.`;
+  return `${p.name}, ${p.stageDetail.toLowerCase()}${p.delivery ? ` after ${p.delivery.toLowerCase()}` : ""}${risk}. Current issue: ${p.currentIssue.toLowerCase()}.${p.latestVitals ? ` ${p.latestVitals}.` : ""}${baby}${mood} Cocuna triage: ${TRIAGE_LABEL[p.triage]}. ${p.triageReason}. Recommended action: ${action}.`;
 }

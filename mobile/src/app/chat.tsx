@@ -34,7 +34,7 @@ import { persistTriageDecision } from '@/lib/persistence';
 import type { TriageDecision } from '@/lib/triage';
 
 const OPENER =
-  'Hello Mom. I’m Hera. Tell me what is happening — I’m here to take care of you.';
+  'Hello Mom. I’m Hera. Tell me what is happening. I’m here to take care of you.';
 
 const PREGNANCY_QUICK_STARTS = [
   {

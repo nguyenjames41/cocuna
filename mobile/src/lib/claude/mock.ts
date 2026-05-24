@@ -135,7 +135,7 @@ export function mockRespond(messages: ChatMessage[]): RADResponse {
         'I hear you. Let me ask a few specifics so we can get you the right level of care.',
       followup: {
         question:
-          'Do you have any vision changes — spots, blurriness, or sensitivity to light?',
+          'Do you have any vision changes? Spots, blurriness, or sensitivity to light?',
         options: [
           { id: 'yes', label: 'Yes' },
           { id: 'no', label: 'No' },
@@ -162,7 +162,7 @@ export function mockRespond(messages: ChatMessage[]): RADResponse {
       };
     }
     return {
-      acknowledgement: 'OK — fever in a small baby needs careful checking. A couple of questions.',
+      acknowledgement: 'OK. Fever in a small baby needs careful checking. A couple of questions.',
       followup: {
         question: 'How old is your baby in weeks?',
         options: [

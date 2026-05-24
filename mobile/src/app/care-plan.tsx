@@ -19,40 +19,40 @@ type Item = { title: string; body: string };
 
 const POSTPARTUM_TODAY: Item[] = [
   { title: 'Take your BP twice today', body: 'Morning and evening. Sit quietly for 5 minutes first.' },
-  { title: 'Hydrate — about 2L through the day', body: 'Breastfeeding needs more. Sip slowly between feeds.' },
+  { title: 'Hydrate, about 2L through the day', body: 'Breastfeeding needs more. Sip slowly between feeds.' },
   { title: 'One restful window, no checking the phone', body: 'Even 20 minutes counts. The chores will keep.' },
 ];
 
 const PREGNANCY_TODAY: Item[] = [
   { title: 'Count baby’s movements after lunch', body: 'Aim for 10 distinct movements within 2 hours. We’ll time it with you.' },
-  { title: 'Glucose check at morning and post-meal', body: 'Fasting + 1 hour after each main meal. Log the numbers as you go.' },
-  { title: 'Hydrate — about 2.5L through the day', body: 'Third trimester needs more fluid. Sip steady, not all at once.' },
+  { title: 'Glucose check at morning and after meals', body: 'Fasting plus 1 hour after each main meal. Log the numbers as you go.' },
+  { title: 'Hydrate, about 2.5L through the day', body: 'Third trimester needs more fluid. Sip steady, not all at once.' },
 ];
 
 const POSTPARTUM_WARNINGS = [
   'Severe headache that won’t go away',
-  'Vision changes — spots, blurriness, light sensitivity',
+  'Vision changes (spots, blurriness, light sensitivity)',
   'Chest pain, shortness of breath, or fainting',
   'Heavy bleeding (soaking a pad an hour)',
   'Fever ≥100.4°F (you or baby under 3 months)',
 ];
 
 const PREGNANCY_WARNINGS = [
-  'Decreased fetal movement — fewer than 10 movements in 2 hours',
+  'Decreased fetal movement (fewer than 10 movements in 2 hours)',
   'Severe headache, vision changes, or sudden swelling (preeclampsia)',
   'Vaginal bleeding or leaking fluid',
   'Painful contractions before 37 weeks',
-  'Severe upper-right abdominal pain',
+  'Severe upper right abdominal pain',
 ];
 
 const POSTPARTUM_EDU: Item[] = [
   {
-    title: 'The 6-week postpartum visit — what to expect',
+    title: 'The 6 week postpartum visit, what to expect',
     body: 'Pelvic exam, contraception talk, mood screen, breastfeeding questions. We’ll prep a summary for you.',
   },
   {
     title: 'When the baby blues become something more',
-    body: 'Persistent sadness after week 2 warrants a screen. We can run one in chat — say the word.',
+    body: 'Persistent sadness after week 2 warrants a screen. We can run one in chat. Say the word.',
   },
   {
     title: 'Returning to activity',
@@ -63,14 +63,14 @@ const POSTPARTUM_EDU: Item[] = [
 const PREGNANCY_EDU: Item[] = [
   {
     title: 'GDM essentials in week 28',
-    body: 'Targets: fasting <95, 1-hour postprandial <140. Log every reading; we’ll flag patterns.',
+    body: 'Targets: fasting <95, postprandial under 140 at 1 hour. Log every reading; we’ll flag patterns.',
   },
   {
-    title: 'Kick counts — why they matter now',
+    title: 'Kick counts. Why they matter now.',
     body: 'Movement patterns are the most reliable indicator of fetal wellbeing in the third trimester. ACOG · 2024.',
   },
   {
-    title: 'Birth-prep checklist for week 28',
+    title: 'Birth prep checklist for week 28',
     body: 'Pediatrician selection, hospital tour, breastfeeding class booking, GBS swab scheduled around week 36.',
   },
 ];
@@ -136,7 +136,7 @@ export default function CarePlanScreen() {
             ))}
           </Section>
 
-          <Section title="Warning signs — open chat or call your clinic">
+          <Section title="Warning signs. Open chat or call your clinic.">
             <Surface tone="outline" style={styles.warnList}>
               {warnings.map((w, i) => (
                 <View key={i} style={styles.warnRow}>

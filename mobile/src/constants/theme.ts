@@ -44,7 +44,7 @@ export const Triage = {
 
 export const TriageLabel = {
   red: 'Urgent',
-  orange: 'Same-day',
+  orange: 'Same day',
   yellow: 'Review',
   green: 'Steady',
   gray: 'Needs review',

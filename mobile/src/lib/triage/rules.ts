@@ -21,7 +21,7 @@ function evaluate(signals: PatientSignals): TriageContribution[] {
   if (signals.breathingIssue) c.push({ input: 'shortness of breath', weight: W_CRITICAL, reason: 'Respiratory emergency' });
   if (signals.seizure) c.push({ input: 'seizure', weight: W_CRITICAL, reason: 'Neurological emergency' });
   if (signals.heavyBleeding) c.push({ input: 'heavy bleeding', weight: W_CRITICAL, reason: 'Hemorrhage risk' });
-  if (signals.selfHarmIdeation) c.push({ input: 'self-harm ideation', weight: W_CRITICAL, reason: 'Acute mental-health crisis' });
+  if (signals.selfHarmIdeation) c.push({ input: 'self harm ideation', weight: W_CRITICAL, reason: 'Acute mental health crisis' });
 
   if (signals.bp) {
     const { systolic, diastolic } = signals.bp;
@@ -45,13 +45,13 @@ function evaluate(signals: PatientSignals): TriageContribution[] {
     c.push({ input: 'facial/hand swelling', weight: W_MEDIUM, reason: 'Possible preeclampsia indicator' });
   }
   if (thirdTrimester && signals.decreasedFetalMovement) {
-    c.push({ input: 'decreased fetal movement', weight: W_HIGH, reason: 'Third-trimester fetal wellbeing concern — needs same-day NST' });
+    c.push({ input: 'decreased fetal movement', weight: W_HIGH, reason: 'Third trimester fetal wellbeing concern. Needs same day NST.' });
   }
   if (preterm && (signals.contractionsPerHour ?? 0) >= 4) {
     c.push({
       input: `${signals.contractionsPerHour} contractions/hr at ${signals.weeksPregnant}wk`,
       weight: W_CRITICAL,
-      reason: 'Preterm labor — needs immediate L&D evaluation',
+      reason: 'Preterm labor. Needs immediate L&D evaluation.',
     });
   }
 
@@ -104,18 +104,18 @@ function levelForScore(score: number): TriageLevel {
 
 const ACTION: Record<TriageLevel, string> = {
   red: 'Contact your clinic or labor & delivery now. We have notified your clinic.',
-  orange: 'Schedule a same-day review with your clinic.',
-  yellow: 'Book a clinic review within the next 24-72 hours.',
-  green: 'Self-care guidance — no clinical action needed right now.',
+  orange: 'Schedule a same day review with your clinic.',
+  yellow: 'Book a clinic review within the next 24 to 72 hours.',
+  green: 'Self care guidance. No clinical action needed right now.',
   gray: 'A clinician will review your message and get back to you.',
 };
 
 const WHEN_ESCALATE: Record<TriageLevel, string> = {
-  red: 'Any new or worsening symptom — call now.',
+  red: 'Any new or worsening symptom. Call now.',
   orange: 'If symptoms worsen, call your clinic right away or go to urgent care.',
   yellow: 'If anything escalates (fever, severe pain, vision changes), contact your clinic immediately.',
   green: 'If new symptoms appear, log them or message us.',
-  gray: 'Add any more detail you can — the more we know, the better the routing.',
+  gray: 'Add any more detail you can. The more we know, the better the routing.',
 };
 
 export function triage(signals: PatientSignals): TriageDecision {

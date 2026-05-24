@@ -22,7 +22,7 @@ export function ClinicHeader({ subtitle }: { subtitle?: string }) {
         </Link>
         <nav className="hidden items-center gap-5 text-sm text-muted-foreground md:flex">
           <span className="text-[11px] uppercase tracking-wider text-muted-foreground/80">
-            Private by design · Clinician-built · HIPAA-aligned
+            Private by design · Clinician built · HIPAA aligned
           </span>
           <span className="text-muted-foreground/40">·</span>
           <Link href="/" className="hover:text-foreground">Queue</Link>

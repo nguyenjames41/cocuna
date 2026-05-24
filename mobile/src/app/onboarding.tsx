@@ -28,7 +28,7 @@ type Step = 'name' | 'stage';
 
 const STAGES: { id: Stage; label: string; hint: string }[] = [
   { id: 'ttc', label: 'Trying to conceive', hint: 'Tracking, questions, hopes.' },
-  { id: 'pregnant', label: 'Pregnant', hint: 'First, second, third — we’ll meet you there.' },
+  { id: 'pregnant', label: 'Pregnant', hint: 'Any trimester. We’ll meet you there.' },
   { id: 'postpartum', label: 'Postpartum', hint: 'Recovery and the early weeks.' },
   { id: 'toddler', label: 'Parenting a toddler', hint: 'Older than 12 months.' },
 ];
@@ -87,11 +87,11 @@ export default function OnboardingScreen() {
                 hitSlop={8}
                 style={({ pressed }) => [styles.skip, pressed && styles.pressed]}
               >
-                <Text style={styles.skipText}>Skip — pick this later</Text>
+                <Text style={styles.skipText}>Skip for now</Text>
               </Pressable>
 
               <Text style={styles.trustStrip}>
-                Private by design · Clinician-built · HIPAA-aligned
+                Private by design · Clinician built · HIPAA aligned
               </Text>
             </View>
           ) : (
@@ -99,7 +99,7 @@ export default function OnboardingScreen() {
               <Text style={styles.eyebrow}>Where are you?</Text>
               <Text style={styles.title}>So we land in the right place.</Text>
               <Text style={styles.lede}>
-                The home screen, the chat tone, the warning signs — all shift to match your stage.
+                The home screen, the chat tone, the warning signs all shift to match your stage.
               </Text>
 
               <View style={styles.stageList}>

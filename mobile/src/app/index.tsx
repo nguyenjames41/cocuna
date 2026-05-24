@@ -65,7 +65,7 @@ function supportiveNote(state: ReturnType<typeof useDemoState>) {
   if (state.stage === 'postpartum') {
     const weeks = Math.floor(state.daysPostpartum / 7);
     return weeks >= 4
-      ? 'You’ve come a long way. The 6-week visit is coming up — we’ll get you ready.'
+      ? 'You’ve come a long way. The 6 week visit is coming up. We’ll get you ready.'
       : 'Your body’s still doing big work. Rest when you can.';
   }
   return 'We’re here whenever you need us.';
@@ -139,8 +139,8 @@ export default function HomeScreen() {
             label="Ask Cocuna"
             caption={
               isPregnancy(state)
-                ? 'Anything about pregnancy — we’ll route you to the right care.'
-                : 'Tell us what’s happening — we’ll route you to the right care.'
+                ? 'Anything about pregnancy. We’ll route you to the right care.'
+                : 'Tell us what’s happening. We’ll route you to the right care.'
             }
             onPress={() => router.push('/chat')}
             tone="peach"
