@@ -8,7 +8,9 @@ export function FollowupCard({
   onAnswer,
 }: {
   question: FollowupQuestion;
-  onAnswer: (label: string) => void;
+  // Receives both the human label (for the chat transcript) and the option id
+  // (used by the scripted demo path to route to the right scripted turn).
+  onAnswer: (label: string, id?: string) => void;
 }) {
   return (
     <View style={styles.card}>
@@ -19,7 +21,7 @@ export function FollowupCard({
           {question.options.map((opt) => (
             <Pressable
               key={opt.id}
-              onPress={() => onAnswer(opt.label)}
+              onPress={() => onAnswer(opt.label, opt.id)}
               style={({ pressed }) => [
                 styles.option,
                 pressed && styles.optionPressed,

@@ -186,6 +186,28 @@
   .onb-tagline em { color: var(--lavender-deep); font-style: italic; }
   .onb-input { min-height: 52px; padding: 14px 16px; border-radius: 14px; background: var(--surface); border: 2px solid var(--lavender-deep); font-family: 'DM Sans', sans-serif; font-size: 17px; color: var(--text-faint); }
   .onb-trust { font-family: 'DM Sans', sans-serif; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-faint); text-align: center; margin-top: 24px; }
+
+  /* Mood row (Home — daily check in) */
+  .mood-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .mood-chip {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    padding: 14px 4px;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 16px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: transform 120ms ease;
+  }
+  .mood-chip:hover { transform: translateY(-1px); }
+  .mood-chip.selected {
+    background: var(--lavender);
+    border-color: var(--lavender-deep);
+  }
+  .mood-emoji { font-size: 28px; line-height: 1; }
+  .mood-label { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); }
+  .mood-chip.selected .mood-label { color: var(--text); font-weight: 500; }
+
 </style>
 </head>
 <body>
@@ -269,12 +291,13 @@
           </div>
 
           <div class="col gap-3">
-            <span class="eyebrow">Quick log</span>
-            <div class="row gap-2 flex-wrap">
-              <span class="log-chip done"><span class="check"></span>Log BP</span>
-              <span class="log-chip"><span class="check"></span>Log mood</span>
-              <span class="log-chip done"><span class="check"></span>Log feeding</span>
-              <span class="log-chip"><span class="check"></span>Log diapers</span>
+            <span class="eyebrow">How are you feeling today?</span>
+            <div class="mood-row">
+              <button class="mood-chip"><span class="mood-emoji">😞</span><span class="mood-label">Awful</span></button>
+              <button class="mood-chip"><span class="mood-emoji">😟</span><span class="mood-label">Low</span></button>
+              <button class="mood-chip"><span class="mood-emoji">😐</span><span class="mood-label">OK</span></button>
+              <button class="mood-chip selected"><span class="mood-emoji">🙂</span><span class="mood-label">Good</span></button>
+              <button class="mood-chip"><span class="mood-emoji">😄</span><span class="mood-label">Great</span></button>
             </div>
           </div>
 

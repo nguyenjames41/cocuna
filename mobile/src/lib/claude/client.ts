@@ -1,9 +1,8 @@
 import { isSupabaseReady, RAD_FUNCTION, supabase } from '@/lib/supabase';
+import type { Stage } from '@/lib/triage/types';
 
 import { mockRespond } from './mock';
 import type { ChatMessage, RADResponse } from './schema';
-
-type Stage = 'pregnancy-28w' | 'postpartum-6w';
 
 export async function askCocuna(
   messages: ChatMessage[],

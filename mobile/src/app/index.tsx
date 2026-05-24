@@ -15,9 +15,10 @@ import {
   Type,
 } from '@/constants/theme';
 import {
+  cycleDemoPersona,
   isPregnancy,
   logToday,
-  switchStageDemo,
+  nextPersonaLabel,
   useDemoState,
   type LogKind,
 } from '@/lib/demo-state';
@@ -71,7 +72,23 @@ function supportiveNote(state: ReturnType<typeof useDemoState>) {
   return 'We’re here whenever you need us.';
 }
 
-function pendingAction(state: ReturnType<typeof useDemoState>) {
+type Pending = {
+  label: string;
+  hint: string;
+  cta?: string;
+  action: () => void;
+};
+
+function pendingAction(state: ReturnType<typeof useDemoState>): Pending | null {
+  // Maria — gentle headache prompt that telegraphs the scripted demo flow.
+  if (state.persona === 'maria') {
+    return {
+      label: 'How’s the headache?',
+      hint: 'You logged it earlier. Hera can take a closer look in under a minute.',
+      cta: 'Tell Hera',
+      action: () => router.push('/chat'),
+    };
+  }
   if (state.stage === 'pregnant') {
     if (!state.logsToday.includes('kicks')) {
       return {
@@ -111,6 +128,13 @@ export default function HomeScreen() {
   const greeting = greetingFor(new Date().getHours());
   const pending = pendingAction(state);
   const logs = isPregnancy(state) ? PREGNANCY_LOGS : POSTPARTUM_LOGS;
+  const isJane = state.persona === 'jane';
+  const isMaria = state.persona === 'maria';
+  // Hera mood matches the persona's emotional register:
+  //   Jane  → lean-in   (warm concern, silence noticed)
+  //   Maria → attentive (mid-conversation about to happen)
+  //   else  → calm      (default Home state)
+  const heraMood = isJane ? 'lean-in' : isMaria ? 'attentive' : 'calm';
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -123,11 +147,13 @@ export default function HomeScreen() {
             <Text style={styles.eyebrow}>{greeting}</Text>
             <Text style={styles.name}>{state.name ? `${state.name}.` : 'Mom.'}</Text>
             <Text style={styles.stage}>{stageLine(state)}</Text>
-            <Text style={styles.note}>{supportiveNote(state)}</Text>
+            <Text style={[styles.note, isJane && styles.noteDim]}>
+              {supportiveNote(state)}
+            </Text>
           </View>
 
           <View style={styles.companionWrap}>
-            <Companion size={88} mood="calm" />
+            <Companion size={88} mood={heraMood} />
           </View>
 
           <View style={styles.statusRow}>
@@ -146,10 +172,36 @@ export default function HomeScreen() {
             tone="peach"
           />
 
-          {pending ? (
-            <View style={styles.pending}>
+          {isJane ? (
+            // Jane's "silence" surface — single soft card replacing the
+            // usual pending log. Telegraphs that Cocuna noticed without
+            // shouting at her.
+            <Pressable
+              onPress={() => router.push('/jane-silence')}
+              style={({ pressed }) => [
+                styles.silenceCard,
+                pressed && styles.pendingCtaPressed,
+              ]}
+            >
               <View style={styles.pendingHeadRow}>
-                <View style={styles.pendingDot} />
+                <View style={styles.silenceDot} />
+                <Text style={styles.pendingLabel}>It’s been quiet</Text>
+              </View>
+              <Text style={styles.pendingHint}>
+                A few signals have shifted this week. No pressure. We just want to check in.
+              </Text>
+              <View style={styles.pendingCta}>
+                <Text style={styles.pendingCtaText}>Open check-in →</Text>
+              </View>
+            </Pressable>
+          ) : pending ? (
+            // Maria's "How's the headache?" card uses rose — the gentle/
+            // supportive tone per DESIGN.md. Signals "this matters" without
+            // the alarm a triage-red fill would carry, and doesn't double
+            // up on peach (reserved for Ask Cocuna above).
+            <View style={[styles.pending, isMaria && styles.pendingRose]}>
+              <View style={styles.pendingHeadRow}>
+                <View style={[styles.pendingDot, isMaria && styles.pendingDotRose]} />
                 <Text style={styles.pendingLabel}>{pending.label}</Text>
               </View>
               <Text style={styles.pendingHint}>{pending.hint}</Text>
@@ -160,7 +212,7 @@ export default function HomeScreen() {
                   pressed && styles.pendingCtaPressed,
                 ]}
               >
-                <Text style={styles.pendingCtaText}>Mark done</Text>
+                <Text style={styles.pendingCtaText}>{pending.cta ?? 'Mark done'}</Text>
               </Pressable>
             </View>
           ) : null}
@@ -198,12 +250,12 @@ export default function HomeScreen() {
           <Text style={styles.checkin}>Next check-in · {state.nextCheckin}</Text>
 
           <Pressable
-            onPress={() => switchStageDemo()}
+            onPress={() => cycleDemoPersona()}
             style={({ pressed }) => [styles.demoSwitch, pressed && styles.demoSwitchPressed]}
           >
             <Text style={styles.demoSwitchEyebrow}>Demo</Text>
             <Text style={styles.demoSwitchText}>
-              Switch to {isPregnancy(state) ? 'postpartum 6wk' : 'pregnancy 28wk'} →
+              Switch to {nextPersonaLabel(state.stageDemo)} →
             </Text>
           </Pressable>
         </View>
@@ -255,6 +307,10 @@ const styles = StyleSheet.create({
     paddingTop: 6,
     maxWidth: 360,
   },
+  // Dimmed when persona is "jane" — telegraphs the silence visually.
+  noteDim: {
+    opacity: 0.55,
+  },
   companionWrap: {
     alignItems: 'center',
     paddingVertical: 4,
@@ -272,6 +328,32 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     gap: 6,
   },
+  // Maria's variant — rose telegraphs "gentle but matters" without
+  // doubling up on the peach Ask Cocuna CTA above.
+  pendingRose: {
+    backgroundColor: Cocuna.rose,
+  },
+  // Jane's quiet check-in card. Same shape as `pending` but a more
+  // subdued surface and a slightly softer dot color so it doesn't read
+  // as an alarm. A soft peach hairline draws the eye without shouting.
+  silenceCard: {
+    backgroundColor: Cocuna.surfaceSunken,
+    borderRadius: Radius.lg,
+    borderWidth: 1,
+    // Soft peach hairline — draws the eye without shouting. The surface
+    // stays sunken (the "silence" register), the hairline is the only
+    // warmth in the card.
+    borderColor: 'rgba(237, 185, 155, 0.55)',
+    paddingVertical: 16,
+    paddingHorizontal: 18,
+    gap: 6,
+  },
+  silenceDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: Cocuna.peachDeep,
+  },
   pendingHeadRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -282,6 +364,9 @@ const styles = StyleSheet.create({
     height: 8,
     borderRadius: 4,
     backgroundColor: Cocuna.lavenderDeep,
+  },
+  pendingDotRose: {
+    backgroundColor: Cocuna.roseDeep,
   },
   pendingLabel: {
     fontFamily: FontStack.bodySemibold,

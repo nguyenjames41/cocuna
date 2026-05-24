@@ -2,9 +2,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { ClinicHeader } from "@/components/clinic/Header";
+import { ERHandoffCard } from "@/components/clinic/ERHandoffCard";
 import { MetricCard } from "@/components/clinic/MetricCard";
 import { SummaryDrawer } from "@/components/clinic/SummaryDrawer";
 import { TriageDot } from "@/components/clinic/TriageDot";
+import { VideoVisitCard } from "@/components/clinic/VideoVisitCard";
 import { patientById, TRIAGE_LABEL } from "@/lib/clinic/patients";
 
 const KIND_LABEL: Record<string, string> = {
@@ -28,6 +30,12 @@ export default async function PatientPage({
   const sleepTone = w.sleepHours < 5 ? "danger" : w.sleepHours < 6.5 ? "warn" : "good";
   const hrTone = w.restingHr >= 90 ? "danger" : w.restingHr >= 80 ? "warn" : "good";
 
+  // Persona-gated recommended-action cards. These are the headline moves the
+  // clinician would take next; sit above the patient header so they read as
+  // "this is what to do" before the supporting context.
+  const showERHandoff = patient.id === "maria" && patient.triage === "red";
+  const showVideoVisit = patient.id === "jane" && patient.triage === "orange";
+
   return (
     <div className="min-h-dvh">
       <ClinicHeader subtitle="Patient · timeline + summary" />
@@ -42,6 +50,16 @@ export default async function PatientPage({
 
         <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
           <div className="flex flex-col gap-6">
+            {showERHandoff || showVideoVisit ? (
+              <section className="flex flex-col gap-3">
+                <p className="text-[11px] uppercase tracking-wider text-muted-foreground">
+                  Recommended action
+                </p>
+                {showERHandoff ? <ERHandoffCard /> : null}
+                {showVideoVisit ? <VideoVisitCard /> : null}
+              </section>
+            ) : null}
+
             <header className="rounded-lg border border-border bg-card p-6">
               <div className="flex items-start justify-between gap-4">
                 <div>
@@ -59,14 +77,16 @@ export default async function PatientPage({
                     {patient.delivery ? ` · ${patient.delivery}` : ""}
                   </p>
                 </div>
-                <div className="text-right">
-                  <p className="text-[11px] uppercase tracking-wider text-muted-foreground">
-                    Recommended action
-                  </p>
-                  <p className="mt-1 max-w-xs text-sm font-medium text-foreground">
-                    {patient.recommendedAction}
-                  </p>
-                </div>
+                {showERHandoff || showVideoVisit ? null : (
+                  <div className="text-right">
+                    <p className="text-[11px] uppercase tracking-wider text-muted-foreground">
+                      Recommended action
+                    </p>
+                    <p className="mt-1 max-w-xs text-sm font-medium text-foreground">
+                      {patient.recommendedAction}
+                    </p>
+                  </div>
+                )}
               </div>
 
               <div className="mt-5 grid gap-4 md:grid-cols-2">

@@ -1,4 +1,4 @@
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import {
   KeyboardAvoidingView,
@@ -14,6 +14,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ChatBubble } from '@/components/ChatBubble';
 import { CocunaSay } from '@/components/CocunaSay';
+import { Companion, type HeraMood } from '@/components/Companion';
 import { FollowupCard } from '@/components/FollowupCard';
 import { ResultCard } from '@/components/ResultCard';
 import {
@@ -24,6 +25,13 @@ import {
   Spacing,
   Type,
 } from '@/constants/theme';
+import {
+  JANE_PUSH_NOTIFICATION,
+  JANE_SCRIPT,
+  JANE_SEED_PROMPT,
+  MARIA_SEED_PROMPT,
+  matchScriptedResponse,
+} from '@/demo-data';
 import {
   askCocuna,
   type ChatMessage,
@@ -36,16 +44,19 @@ import type { TriageDecision } from '@/lib/triage';
 const OPENER =
   'Hello Mom. I’m Hera. Tell me what is happening. I’m here to take care of you.';
 
+// First entry in each list seeds the scripted Maria / Jane demo path — its
+// `seed` MUST match the canonical seed prompt so matchScriptedResponse() hits.
+// The other two seeds remain live-Anthropic flavor.
 const PREGNANCY_QUICK_STARTS = [
+  {
+    id: 'maria-preeclampsia',
+    label: 'Headache + vision + swelling',
+    seed: MARIA_SEED_PROMPT,
+  },
   {
     id: 'fetal-movement',
     label: 'Decreased fetal movement',
     seed: 'I’m 28 weeks. Baby has been much quieter than usual today. I’ve only felt a few small movements all afternoon.',
-  },
-  {
-    id: 'preeclampsia',
-    label: 'Headache + swelling',
-    seed: 'I’m 28 weeks pregnant. I have a bad headache, my face is puffy, and I’m seeing spots. BP at home was 152/98.',
   },
   {
     id: 'contractions',
@@ -56,9 +67,9 @@ const PREGNANCY_QUICK_STARTS = [
 
 const POSTPARTUM_QUICK_STARTS = [
   {
-    id: 'pp-htn',
-    label: 'Postpartum BP concern',
-    seed: 'I’m 6 weeks postpartum. I have a bad headache and I’m seeing spots. My blood pressure is 158/102.',
+    id: 'jane-proactive',
+    label: 'Cocuna check-in',
+    seed: JANE_SEED_PROMPT,
   },
   {
     id: 'baby-fever',
@@ -78,16 +89,48 @@ type Turn =
   | { kind: 'followup'; question: FollowupQuestion }
   | { kind: 'result'; decision: TriageDecision };
 
+/**
+ * Pre-seed the chat with Jane's push + the opener of her scripted safety
+ * screen. The first scripted turn ("jane-turn-0") carries both the
+ * acknowledgement Hera says when the push is tapped AND the first followup
+ * card — we surface them as two turns so the thread reads like a real
+ * proactive reach-out.
+ */
+function buildJaneProactiveInitial(): Turn[] {
+  const turn0 = JANE_SCRIPT.find((t) => t.id === 'jane-turn-0');
+  const turns: Turn[] = [
+    { kind: 'cocuna', text: JANE_PUSH_NOTIFICATION },
+  ];
+  if (turn0) {
+    turns.push({ kind: 'cocuna', text: turn0.response.acknowledgement });
+    if (turn0.response.followup) {
+      turns.push({ kind: 'followup', question: turn0.response.followup });
+    }
+  }
+  return turns;
+}
+
 export default function ChatScreen() {
   const state = useDemoState();
+  const params = useLocalSearchParams<{ mode?: string; persona?: string }>();
+  const isProactiveJane =
+    params.mode === 'proactive' && params.persona === 'jane';
+
   const quickStarts = isPregnancy(state) ? PREGNANCY_QUICK_STARTS : POSTPARTUM_QUICK_STARTS;
 
-  const [turns, setTurns] = useState<Turn[]>([
-    { kind: 'cocuna', text: OPENER },
-  ]);
+  // Proactive mode pre-seeds the thread with the Jane push + opening question.
+  // Computed once at mount; URL params are stable for the life of the modal.
+  const initialTurns: Turn[] = isProactiveJane
+    ? buildJaneProactiveInitial()
+    : [{ kind: 'cocuna', text: OPENER }];
+
+  const [turns, setTurns] = useState<Turn[]>(initialTurns);
   const [input, setInput] = useState('');
   const [thinking, setThinking] = useState(false);
-  const [showQuickStart, setShowQuickStart] = useState(true);
+  const [showQuickStart, setShowQuickStart] = useState(!isProactiveJane);
+  const [mood, setMood] = useState<HeraMood>(
+    isProactiveJane ? 'lean-in' : 'attentive',
+  );
   const scrollRef = useRef<ScrollView>(null);
 
   useEffect(() => {
@@ -104,7 +147,18 @@ export default function ChatScreen() {
     return msgs;
   };
 
-  const send = async (text: string) => {
+  const applyMoodFromDecision = (decision: TriageDecision) => {
+    if (decision.level === 'red') setMood('lean-in');
+    else if (decision.level === 'green') setMood('milestone');
+    else setMood('attentive');
+  };
+
+  /**
+   * `send` is called both for free-text user messages AND for followup option
+   * taps. When it's a followup option, `optionId` is passed and matched
+   * against the scripted demo path before any network call.
+   */
+  const send = async (text: string, optionId?: string) => {
     const trimmed = text.trim();
     if (!trimmed) return;
     setShowQuickStart(false);
@@ -120,10 +174,27 @@ export default function ChatScreen() {
       ? `${state.weeksPregnant} weeks pregnant`
       : `${state.daysPostpartum} days postpartum`;
 
-    const response = await askCocuna(messagesForApi(trimmed), {
-      stage: state.stageDemo,
-      stageDetail,
+    // 1) Try scripted demo path first. If matched, fake a brief thinking
+    //    delay so it doesn't feel instant — Hera should look like she's
+    //    weighing the answer.
+    const scripted = matchScriptedResponse({
+      lastUserMessage: trimmed,
+      lastFollowupOptionId: optionId,
+      history: messagesForApi(trimmed),
     });
+
+    let response;
+    if (scripted) {
+      await new Promise((r) => setTimeout(r, 600));
+      response = scripted;
+    } else {
+      // 2) Fall through to the live Edge Function (which itself falls back
+      //    to mock if Supabase is unreachable).
+      response = await askCocuna(messagesForApi(trimmed), {
+        stage: state.stage,
+        stageDetail,
+      });
+    }
 
     const after: Turn[] = [
       ...next,
@@ -131,6 +202,7 @@ export default function ChatScreen() {
     ];
     if (response.decision) {
       after.push({ kind: 'result', decision: response.decision });
+      applyMoodFromDecision(response.decision);
       // Fire-and-forget persistence so the clinic queue can pick it up.
       void persistTriageDecision(response.decision, trimmed, stageDetail);
     } else if (response.followup) {
@@ -151,7 +223,12 @@ export default function ChatScreen() {
         <View style={styles.grabber} />
         <View style={styles.headerRow}>
           <View style={{ width: 60 }} />
-          <Text style={styles.headerTitle}>Ask Cocuna</Text>
+          <View style={styles.titleBlock}>
+            <View style={styles.companionSlot}>
+              <Companion size={48} mood={mood} introPulse={false} />
+            </View>
+            <Text style={styles.headerTitle}>Hera</Text>
+          </View>
           <Pressable
             onPress={close}
             hitSlop={12}
@@ -181,7 +258,7 @@ export default function ChatScreen() {
                   <FollowupCard
                     key={i}
                     question={t.question}
-                    onAnswer={(label) => send(label)}
+                    onAnswer={(label, id) => send(label, id)}
                   />
                 );
               if (t.kind === 'result')
@@ -261,12 +338,12 @@ const styles = StyleSheet.create({
   flex: { flex: 1 },
   header: {
     paddingTop: 6,
-    paddingBottom: 12,
+    paddingBottom: 10,
     paddingHorizontal: Spacing.three,
     borderBottomWidth: 1,
     borderBottomColor: Cocuna.hairlineSoft,
     backgroundColor: Cocuna.bg,
-    gap: 8,
+    gap: 6,
   },
   grabber: {
     alignSelf: 'center',
@@ -280,10 +357,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  titleBlock: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: 4,
+  },
+  // Companion frame inflates beyond its `size` (~1.7x for the glow halo);
+  // clamp it visually so the header doesn't grow taller than other modal
+  // headers while still giving Hera room to breathe.
+  companionSlot: {
+    width: 56,
+    height: 52,
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+  },
   headerTitle: {
     fontFamily: FontStack.bodySemibold,
-    fontSize: 15,
-    color: Cocuna.text,
+    fontSize: 13,
+    letterSpacing: 0.2,
+    color: Cocuna.textMuted,
   },
   close: {
     paddingVertical: 6,

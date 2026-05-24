@@ -64,6 +64,10 @@ export default function RootLayout() {
           name="companion"
           options={{ animation: 'slide_from_right' }}
         />
+        <Stack.Screen
+          name="jane-silence"
+          options={{ animation: 'slide_from_right' }}
+        />
       </Stack>
       <StatusBar style="dark" />
     </SafeAreaProvider>
