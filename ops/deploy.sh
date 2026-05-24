@@ -65,17 +65,17 @@ cmd_supabase() {
   : "${ANTHROPIC_API_KEY:?fill ANTHROPIC_API_KEY in .env}"
 
   blue "== supabase link =="
-  supabase link --project-ref "$SUPABASE_PROJECT_REF" || true
+  supabase link --project-ref "$SUPABASE_PROJECT_REF" || { red "link failed"; return 1; }
 
   blue "== supabase db push (applies migrations + RLS) =="
-  supabase db push --include-all
+  supabase db push --include-all || { red "db push failed"; return 1; }
 
   blue "== deploy cocuna-rad edge function =="
-  supabase functions deploy cocuna-rad --no-verify-jwt
+  supabase functions deploy cocuna-rad --no-verify-jwt || { red "function deploy failed"; return 1; }
 
   blue "== set ANTHROPIC_API_KEY as Edge Function secret =="
   # Pipe directly so the value never appears in argv (visible via `ps`).
-  printf "ANTHROPIC_API_KEY=%s\n" "$ANTHROPIC_API_KEY" | supabase secrets set --env-file /dev/stdin
+  printf "ANTHROPIC_API_KEY=%s\n" "$ANTHROPIC_API_KEY" | supabase secrets set --env-file /dev/stdin || { red "secret set failed"; return 1; }
   green "  ✓ supabase wired"
 }
 
