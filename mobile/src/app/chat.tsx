@@ -30,6 +30,7 @@ import {
   type FollowupQuestion,
 } from '@/lib/claude';
 import { isPregnancy, useDemoState } from '@/lib/demo-state';
+import { persistTriageDecision } from '@/lib/persistence';
 import type { TriageDecision } from '@/lib/triage';
 
 const OPENER =
@@ -115,11 +116,13 @@ export default function ChatScreen() {
     setTurns(next);
     setThinking(true);
 
+    const stageDetail = isPregnancy(state)
+      ? `${state.weeksPregnant} weeks pregnant`
+      : `${state.daysPostpartum} days postpartum`;
+
     const response = await askCocuna(messagesForApi(trimmed), {
       stage: state.stageDemo,
-      stageDetail: isPregnancy(state)
-        ? `${state.weeksPregnant} weeks pregnant`
-        : `${state.daysPostpartum} days postpartum`,
+      stageDetail,
     });
 
     const after: Turn[] = [
@@ -128,6 +131,8 @@ export default function ChatScreen() {
     ];
     if (response.decision) {
       after.push({ kind: 'result', decision: response.decision });
+      // Fire-and-forget persistence so the clinic queue can pick it up.
+      void persistTriageDecision(response.decision, trimmed, stageDetail);
     } else if (response.followup) {
       after.push({ kind: 'followup', question: response.followup });
     }
