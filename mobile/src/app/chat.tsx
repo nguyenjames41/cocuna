@@ -115,7 +115,12 @@ export default function ChatScreen() {
     setTurns(next);
     setThinking(true);
 
-    const response = await askCocuna(messagesForApi(trimmed));
+    const response = await askCocuna(messagesForApi(trimmed), {
+      stage: state.stageDemo,
+      stageDetail: isPregnancy(state)
+        ? `${state.weeksPregnant} weeks pregnant`
+        : `${state.daysPostpartum} days postpartum`,
+    });
 
     const after: Turn[] = [
       ...next,
