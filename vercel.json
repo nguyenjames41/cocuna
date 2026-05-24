@@ -1,0 +1,7 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "echo 'serving clinic design bundle from clinic-web/'",
+  "outputDirectory": "clinic-web",
+  "installCommand": "echo 'no install needed'",
+  "framework": null
+}
