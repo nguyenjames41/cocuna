@@ -33,7 +33,7 @@ import { isPregnancy, useDemoState } from '@/lib/demo-state';
 import type { TriageDecision } from '@/lib/triage';
 
 const OPENER =
-  'Hello Mom. Tell me what is happening — I’m here to take care of you.';
+  'Hello Mom. I’m Hera. Tell me what is happening — I’m here to take care of you.';
 
 const PREGNANCY_QUICK_STARTS = [
   {
@@ -197,7 +197,7 @@ export default function ChatScreen() {
                   <View style={[styles.dot, styles.dotMid]} />
                   <View style={styles.dot} />
                 </View>
-                <Text style={styles.thinkingText}>Cocuna is thinking…</Text>
+                <Text style={styles.thinkingText}>Hera is thinking…</Text>
               </View>
             ) : null}
 

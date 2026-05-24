@@ -71,7 +71,7 @@ Read https://docs.expo.dev/versions/v56.0.0/ before writing any mobile code — 
 | Pastel accents | rose `#F3D7DC` · mint `#C8E2D2` · lavender `#D8D0EE` · peach `#F8D9C5` · butter `#F0E3B1` (used sparingly, never as wallpaper) |
 | Display font | Fraunces (serif, optical sizing — emotional moments only) |
 | Body font | DM Sans (sans — everything else; NOT Inter) |
-| Mascot | "Coco" — soft rounded blob, two-dot eyes, no nose/mouth, pastel-gradient body with mood states |
+| Mascot / AI persona | "Hera" — soft rounded blob, two-dot eyes, no nose/mouth, pastel-gradient body with mood states. Hera is the chat persona; Cocuna is the product. |
 
 **Memorable feeling on first open: "It's calm in here."** Quiet over busy. Muted over saturated. The pastels are calibrated low-saturation; if they start looking Lisa-Frank, pull them back.
 

@@ -80,7 +80,7 @@ export default function CompanionScreen() {
           <Surface tone="lavender" style={styles.tendBlock}>
             <Text style={styles.tendLabel}>Tend to yourself</Text>
             <Text style={styles.tendBody}>
-              When you’ve got a minute, breathe slow with Coco. It’s holding the same minute
+              When you’ve got a minute, breathe slow with Hera. She’s holding the same minute
               with you.
             </Text>
           </Surface>

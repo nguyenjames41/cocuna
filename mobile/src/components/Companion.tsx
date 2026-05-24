@@ -13,16 +13,16 @@ import Animated, {
 
 import { Cocuna } from '@/constants/theme';
 
-export type CocoMood = 'calm' | 'attentive' | 'milestone' | 'lean-in';
+export type HeraMood = 'calm' | 'attentive' | 'milestone' | 'lean-in';
 
-const GRADIENTS: Record<CocoMood, [string, string]> = {
+const GRADIENTS: Record<HeraMood, [string, string]> = {
   calm: [Cocuna.lavender, Cocuna.mint],
   attentive: [Cocuna.peach, Cocuna.rose],
   milestone: [Cocuna.butter, Cocuna.mint],
   'lean-in': [Cocuna.roseDeep, Cocuna.peachDeep],
 };
 
-const SHADOW_TINT: Record<CocoMood, string> = {
+const SHADOW_TINT: Record<HeraMood, string> = {
   calm: 'rgba(181, 168, 220, 0.35)',
   attentive: 'rgba(237, 185, 155, 0.35)',
   milestone: 'rgba(157, 203, 176, 0.35)',
@@ -35,7 +35,7 @@ export function Companion({
   introPulse = true,
 }: {
   size?: number;
-  mood?: CocoMood;
+  mood?: HeraMood;
   introPulse?: boolean;
 }) {
   const breath = useSharedValue(1);

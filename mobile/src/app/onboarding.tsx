@@ -51,7 +51,13 @@ export default function OnboardingScreen() {
       >
         <View style={styles.content}>
           <View style={styles.heroWrap}>
-            <Logo size={160} />
+            <Logo size={140} />
+            {step === 'name' ? (
+              <Text style={styles.tagline}>
+                Because moms shouldn’t need to{' '}
+                <Text style={styles.taglineAccent}>worry</Text> about taking care of themselves.
+              </Text>
+            ) : null}
           </View>
 
           {step === 'name' ? (
@@ -83,6 +89,10 @@ export default function OnboardingScreen() {
               >
                 <Text style={styles.skipText}>Skip — pick this later</Text>
               </Pressable>
+
+              <Text style={styles.trustStrip}>
+                Private by design · Clinician-built · HIPAA-aligned
+              </Text>
             </View>
           ) : (
             <View style={styles.block}>
@@ -154,7 +164,26 @@ const styles = StyleSheet.create({
     paddingBottom: Spacing.four,
     gap: Spacing.four,
   },
-  heroWrap: { alignItems: 'center' },
+  heroWrap: { alignItems: 'center', gap: Spacing.three },
+  tagline: {
+    fontFamily: FontStack.displayMedium,
+    fontSize: 18,
+    lineHeight: 24,
+    letterSpacing: -0.2,
+    color: Cocuna.text,
+    textAlign: 'center',
+    maxWidth: 320,
+  },
+  taglineAccent: {
+    color: Cocuna.lavenderDeep,
+    fontStyle: 'italic',
+  },
+  trustStrip: {
+    ...Type.caption,
+    color: Cocuna.textFaint,
+    textAlign: 'center',
+    marginTop: Spacing.four,
+  },
   block: { gap: Spacing.three },
   eyebrow: { ...Type.caption, color: Cocuna.textMuted },
   title: {

@@ -116,7 +116,7 @@ Defined in [SPEC.md](./SPEC.md). Every Cocuna decision must show its reason — 
 ├── lib/supabase.ts            # Clinic Supabase client (public + service-role)
 ├── mobile/                    # Mother app (Expo)
 │   ├── src/app/               # Onboarding, Home, Chat, Care plan, Companion
-│   ├── src/components/        # Coco mascot, PastelCTA, Surface, StatusBadge, etc.
+│   ├── src/components/        # Hera mascot, PastelCTA, Surface, StatusBadge, etc.
 │   ├── src/lib/claude/        # Edge Function client + mock fallback
 │   ├── src/lib/triage/        # Triage rules (postpartum + pregnancy)
 │   ├── src/lib/supabase.ts    # Mobile Supabase client
@@ -137,7 +137,7 @@ Defined in [SPEC.md](./SPEC.md). Every Cocuna decision must show its reason — 
 
 Mother app and clinic dashboard have different visual systems by design.
 
-**Mother app — soft serif wellness.** Cream `#F7F4EE` background, muted pastels (rose / mint / lavender / peach / butter), Fraunces for emotional moments, DM Sans for everything else, a soft mascot ("Coco") with two-dot eyes and four mood states. Memorable feeling on first open: *"It's calm in here."* Locked via `/design-consultation` 2026-05-23. Full spec in [`mobile/DESIGN.md`](./mobile/DESIGN.md).
+**Mother app — soft serif wellness.** Cream `#F7F4EE` background, muted pastels (rose / mint / lavender / peach / butter), Fraunces for emotional moments, DM Sans for everything else, a soft mascot ("Hera") with two-dot eyes and four mood states. Memorable feeling on first open: *"It's calm in here."* Locked via `/design-consultation` 2026-05-23. Full spec in [`mobile/DESIGN.md`](./mobile/DESIGN.md).
 
 **Clinic dashboard — pastel sage.** Warm off-white background, sage-green primary accent, white cards with dense data layouts. Same triage palette as the mother app so the visual language for Red/Orange/Yellow/Green/Gray is consistent across surfaces.
 

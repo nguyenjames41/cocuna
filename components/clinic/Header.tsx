@@ -21,9 +21,11 @@ export function ClinicHeader({ subtitle }: { subtitle?: string }) {
           </div>
         </Link>
         <nav className="hidden items-center gap-5 text-sm text-muted-foreground md:flex">
+          <span className="text-[11px] uppercase tracking-wider text-muted-foreground/80">
+            Private by design · Clinician-built · HIPAA-aligned
+          </span>
+          <span className="text-muted-foreground/40">·</span>
           <Link href="/" className="hover:text-foreground">Queue</Link>
-          <Link href="/investor" className="hover:text-foreground">Investor</Link>
-          <span className="text-muted-foreground/60">·</span>
           <span className="text-foreground">Dr. Patel</span>
           <div className="grid h-8 w-8 place-items-center rounded-full bg-sage-100 text-xs font-medium text-sage-700">
             DP

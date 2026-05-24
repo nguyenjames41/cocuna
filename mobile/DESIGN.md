@@ -77,7 +77,7 @@ Background and surface do 90% of the work. Pastels are placed sparingly on the c
 | `green` | `#7EC298` | Steady — self-care |
 | `gray` | `#9CA6B5` | Insufficient data — human review |
 
-**Triage rule:** an 8pt colored **dot** plus an outline pill. The reason text lives below the badge in body weight, **not inside it**. Solid colored fills read as "alarm" in healthcare apps; we want gravity, not fear. The Companion (Coco) leans in for Red triage — mood, not a flashing pill.
+**Triage rule:** an 8pt colored **dot** plus an outline pill. The reason text lives below the badge in body weight, **not inside it**. Solid colored fills read as "alarm" in healthcare apps; we want gravity, not fear. The Companion (Hera) leans in for Red triage — mood, not a flashing pill.
 
 ### Card pairing rule
 
@@ -109,7 +109,7 @@ We **do not** use Inter on the mother app. DM Sans pairs warmer with Fraunces an
 
 ---
 
-## The Companion — "Coco"
+## The Companion — "Hera"
 
 A soft rounded creature. Pastel-gradient body, two-dot eyes, no nose, no mouth. The single sanctioned character in Cocuna's visual system — a deliberate shift from the prior "no faces" rule, motivated by the brand pivot to a warmer wellness aesthetic.
 
@@ -134,9 +134,9 @@ A soft rounded creature. Pastel-gradient body, two-dot eyes, no nose, no mouth. 
 - **Milestone:** slow 1.5s ripple from center (opacity 12% → 0%).
 - **Lean-in:** 800ms warm tint shift on Red triage entry. The Companion is concerned, not alarmed.
 
-### What Coco is NOT
+### What Hera is NOT
 - Not a face — no mouth, no nose, no expressions beyond the two-dot gaze and the color shift.
-- Not a creature with a backstory — Coco is a designed object, not a persona. Honesty is part of trust.
+- Not a creature with a backstory — Hera is a designed object, not a persona. Honesty is part of trust.
 - Not a voice — Cocuna has copy, not narrated speech.
 - Not a status indicator for clinical state — that's what the triage badges do.
 
@@ -249,8 +249,8 @@ These rules are explicitly **superseded** by this version. Listed so they aren't
 
 - ~~"Background `#0B1220` deep navy / foreground cream"~~ — now light cream `#F7F4EE`.
 - ~~"95% navy + cream, gradient in exactly three places"~~ — now muted pastels carry the system.
-- ~~"No face, no expression, no creature reading" on the Companion~~ — Coco has two-dot eyes and mood states.
-- ~~"Abstract geometric squircle only"~~ — Coco is a soft asymmetric blob.
+- ~~"No face, no expression, no creature reading" on the Companion~~ — Hera has two-dot eyes and mood states.
+- ~~"Abstract geometric squircle only"~~ — Hera is a soft asymmetric blob.
 - ~~"Inter for body"~~ — DM Sans replaces Inter.
 
 The SPEC.md "Product Loop Framework" content (core function, core loop, accessory features, surface area check, retention hook, reward framing rules) **still applies** — those are product/clinical rules, not visual ones.
@@ -263,8 +263,8 @@ Defer these until we've used the system across more surfaces:
 
 1. **Dark mode** — TBD. Cocuna is light-first; a true dark mode would need its own consult.
 2. **Per-stage Home variation** — TTC, pregnant, postpartum, toddler all share the same Home shell today. We may want per-stage hero treatments.
-3. **Coco for stressful states** — the warm lean-in tint is a starting position. Worth A/B testing whether it reassures or destabilizes during Red triage.
-4. **Sound design** — the prior Companion had a single pluck sound on log/milestone. Re-decide for Coco.
-5. **Onboarding mascot moment** — does Coco appear in onboarding, or only after the first Home arrival? Currently shows during onboarding.
+3. **Hera for stressful states** — the warm lean-in tint is a starting position. Worth A/B testing whether it reassures or destabilizes during Red triage.
+4. **Sound design** — the prior Companion had a single pluck sound on log/milestone. Re-decide for Hera.
+5. **Onboarding mascot moment** — does Hera appear in onboarding, or only after the first Home arrival? Currently shows during onboarding.
 
 Preview file (for reference / future updates): `~/.gstack/projects/Cocuna/designs/design-system-20260523-1654/cocuna-design-preview.html`
