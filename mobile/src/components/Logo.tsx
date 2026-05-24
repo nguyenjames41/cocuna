@@ -22,6 +22,8 @@ export function Logo({
         style={{ width: size, height: size }}
         contentFit="contain"
         transition={150}
+        accessibilityLabel="Cocuna"
+        alt="Cocuna"
       />
       {withWordmark ? (
         <Text style={[styles.wordmark, { fontSize: wm, lineHeight: wm * 1.05 }]}>
