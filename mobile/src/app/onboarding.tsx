@@ -51,7 +51,7 @@ export default function OnboardingScreen() {
       >
         <View style={styles.content}>
           <View style={styles.heroWrap}>
-            <Logo size={96} withWordmark />
+            <Logo size={160} />
           </View>
 
           {step === 'name' ? (

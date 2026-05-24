@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { ClinicHeader } from "@/components/clinic/Header";
@@ -53,6 +54,14 @@ export default function InvestorPage() {
       <main className="container py-12">
         {/* HERO */}
         <section className="mb-16 max-w-3xl">
+          <Image
+            src="/cocuna-logo.png"
+            alt="Cocuna"
+            width={160}
+            height={160}
+            className="mb-6 h-32 w-32 md:h-40 md:w-40"
+            priority
+          />
           <p className="text-[11px] uppercase tracking-wider text-muted-foreground">
             Cocuna · for OB and pediatric clinics
           </p>

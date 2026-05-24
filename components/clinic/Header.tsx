@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export function ClinicHeader({ subtitle }: { subtitle?: string }) {
@@ -5,13 +6,15 @@ export function ClinicHeader({ subtitle }: { subtitle?: string }) {
     <header className="border-b border-border bg-background/80 backdrop-blur">
       <div className="container flex items-center justify-between py-4">
         <Link href="/" className="flex items-center gap-3">
-          <div className="grid h-9 w-9 place-items-center rounded-full bg-sage-200 font-serif text-base text-sage-700">
-            c
-          </div>
+          <Image
+            src="/cocuna-logo.png"
+            alt="Cocuna"
+            width={44}
+            height={44}
+            className="h-11 w-11"
+            priority
+          />
           <div className="flex flex-col">
-            <span className="font-serif text-lg leading-none tracking-tightest text-foreground">
-              cocuna
-            </span>
             <span className="text-[11px] uppercase tracking-wider text-muted-foreground">
               {subtitle ?? "Clinic continuity"}
             </span>

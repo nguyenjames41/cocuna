@@ -1,22 +1,21 @@
 import { Image } from 'expo-image';
-import { StyleSheet, Text, View } from 'react-native';
-
-import { Cocuna, FontStack } from '@/constants/theme';
+import { StyleSheet, View } from 'react-native';
 
 const LOGO_SOURCE = require('@/assets/images/cocuna-logo.png');
 
+/**
+ * Cocuna lockup — gradient mark + wordmark, baked into the PNG. Renders at the
+ * given size preserving aspect (square 1:1 in the source). On a cream background
+ * the gradient + dark wordmark read against the surface; the source's black
+ * background has been processed to transparent.
+ */
 export function Logo({
-  size = 80,
-  withWordmark = false,
-  wordmarkSize,
+  size = 120,
 }: {
   size?: number;
-  withWordmark?: boolean;
-  wordmarkSize?: number;
 }) {
-  const wm = wordmarkSize ?? Math.round(size * 0.36);
   return (
-    <View style={[styles.wrap, { gap: Math.max(8, size * 0.12) }]}>
+    <View style={styles.wrap}>
       <Image
         source={LOGO_SOURCE}
         style={{ width: size, height: size }}
@@ -25,22 +24,10 @@ export function Logo({
         accessibilityLabel="Cocuna"
         alt="Cocuna"
       />
-      {withWordmark ? (
-        <Text style={[styles.wordmark, { fontSize: wm, lineHeight: wm * 1.05 }]}>
-          cocuna
-        </Text>
-      ) : null}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  wrap: {
-    alignItems: 'center',
-  },
-  wordmark: {
-    fontFamily: FontStack.body,
-    color: Cocuna.text,
-    letterSpacing: -0.4,
-  },
+  wrap: { alignItems: 'center' },
 });
