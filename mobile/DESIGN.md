@@ -2,7 +2,7 @@
 
 Locked via `/design-consultation` on 2026-05-23. Replaces the prior navy-first system.
 
-This document is **authoritative** for visual decisions on the mother app. When SPEC.md, CLAUDE.md, or any older artifact conflicts with this file on brand/visual rules, this file wins. Clinical and safety rules (triage levels, reward framing, explainability) in SPEC.md still apply.
+This document is **authoritative** for visual decisions on the mother app. When SPEC.md or any older artifact conflicts with this file on brand/visual rules, this file wins. Clinical and safety rules (triage levels, reward framing, explainability) in SPEC.md still apply.
 
 ---
 
