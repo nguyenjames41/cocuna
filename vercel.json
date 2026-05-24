@@ -3,5 +3,6 @@
   "buildCommand": "echo 'serving clinic design bundle from clinic-web/'",
   "outputDirectory": "clinic-web",
   "installCommand": "echo 'no install needed'",
-  "framework": null
+  "framework": null,
+  "cleanUrls": true
 }
