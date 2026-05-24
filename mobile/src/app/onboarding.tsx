@@ -64,9 +64,6 @@ export default function OnboardingScreen() {
             <View style={styles.block}>
               <Text style={styles.eyebrow}>Welcome</Text>
               <Text style={styles.title}>What can we call you?</Text>
-              <Text style={styles.lede}>
-                Used in greetings and nowhere else. You can change it any time.
-              </Text>
 
               <TextInput
                 value={name}

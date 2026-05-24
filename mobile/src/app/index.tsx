@@ -1,11 +1,12 @@
 import { router } from 'expo-router';
+import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Companion } from '@/components/Companion';
+import { CheckInRow, type CheckInOption } from '@/components/CheckInRow';
 import { LogChip } from '@/components/LogChip';
 import { PastelCTA } from '@/components/PastelCTA';
-import { StatusBadge } from '@/components/StatusBadge';
+import { PersonaIllustration } from '@/components/PersonaIllustration';
 import {
   Cocuna,
   FontStack,
@@ -35,6 +36,30 @@ const PREGNANCY_LOGS: { kind: LogKind; label: string }[] = [
   { kind: 'bp', label: 'Log BP' },
   { kind: 'glucose', label: 'Log glucose' },
   { kind: 'mood', label: 'Log mood' },
+];
+
+// 3 check-in dimensions ported from the Aurora design — Mood / Energy / Pain.
+// Each option pairs a face variant with a pastel from the brand palette.
+const MOOD_OPTIONS: CheckInOption[] = [
+  { face: 'cry', label: 'Low', bg: '#E4D4EB', idx: 0 },
+  { face: 'glum', label: 'OK', bg: '#F5E4B0', idx: 1 },
+  { face: 'smile', label: 'Good', bg: '#D4E8DC', idx: 2 },
+  { face: 'soft', label: 'Soft', bg: '#F8D9C5', idx: 3 },
+  { face: 'sparkle', label: 'Bright', bg: '#F3D7DC', idx: 4 },
+];
+const ENERGY_OPTIONS: CheckInOption[] = [
+  { face: 'dead', label: 'Empty', bg: '#E5E0D6', idx: 5 },
+  { face: 'sleepy', label: 'Low', bg: '#E4D4EB', idx: 0 },
+  { face: 'neutral', label: 'OK', bg: '#F5E4B0', idx: 1 },
+  { face: 'soft', label: 'Lifted', bg: '#D4E8DC', idx: 2 },
+  { face: 'beam', label: 'Sunny', bg: '#F8D9C5', idx: 3 },
+];
+const PAIN_OPTIONS: CheckInOption[] = [
+  { face: 'smile', label: 'None', bg: '#D4E8DC', idx: 4 },
+  { face: 'soft', label: 'Mild', bg: '#F5E4B0', idx: 5 },
+  { face: 'wince', label: 'Some', bg: '#F8D9C5', idx: 0 },
+  { face: 'ouch', label: 'High', bg: '#F3D7DC', idx: 1 },
+  { face: 'severe', label: 'Severe', bg: '#F0B4B4', idx: 2 },
 ];
 
 function greetingFor(hour: number) {
@@ -130,11 +155,17 @@ export default function HomeScreen() {
   const logs = isPregnancy(state) ? PREGNANCY_LOGS : POSTPARTUM_LOGS;
   const isJane = state.persona === 'jane';
   const isMaria = state.persona === 'maria';
-  // Hera mood matches the persona's emotional register:
-  //   Jane  → lean-in   (warm concern, silence noticed)
-  //   Maria → attentive (mid-conversation about to happen)
-  //   else  → calm      (default Home state)
-  const heraMood = isJane ? 'lean-in' : isMaria ? 'attentive' : 'calm';
+  // Aurora persona illustration — Maria=womb baby, Jane=happy 3-month Lila,
+  // others fall back to Maria so the hero never reads empty in demo flows.
+  const illustrationPersona: 'maria' | 'jane' = isJane ? 'jane' : 'maria';
+
+  // 3 check-ins (mood, energy, pain). Local UI state for the demo —
+  // taps are not persisted, this is a visual / story beat.
+  const [checkin, setCheckin] = useState<{
+    mood: number | null;
+    energy: number | null;
+    pain: number | null;
+  }>({ mood: null, energy: null, pain: null });
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -152,13 +183,8 @@ export default function HomeScreen() {
             </Text>
           </View>
 
-          <View style={styles.companionWrap}>
-            <Companion size={88} mood={heraMood} />
-          </View>
-
-          <View style={styles.statusRow}>
-            <StatusBadge label="Mom" level={state.momStatus} />
-            <StatusBadge label={state.babyStatusLabel} level={state.babyStatus} />
+          <View style={styles.illustrationWrap}>
+            <PersonaIllustration persona={illustrationPersona} size={200} />
           </View>
 
           <PastelCTA
@@ -216,6 +242,29 @@ export default function HomeScreen() {
               </Pressable>
             </View>
           ) : null}
+
+          {/* 3 check-ins (Aurora) — Mood / Energy / Pain, animated blob chips. */}
+          <View style={styles.checkinSection}>
+            <Text style={styles.sectionLabel}>A small check in</Text>
+            <CheckInRow
+              label="Mood"
+              options={MOOD_OPTIONS}
+              value={checkin.mood}
+              onChange={(v) => setCheckin({ ...checkin, mood: v })}
+            />
+            <CheckInRow
+              label="Energy"
+              options={ENERGY_OPTIONS}
+              value={checkin.energy}
+              onChange={(v) => setCheckin({ ...checkin, energy: v })}
+            />
+            <CheckInRow
+              label="Pain"
+              options={PAIN_OPTIONS}
+              value={checkin.pain}
+              onChange={(v) => setCheckin({ ...checkin, pain: v })}
+            />
+          </View>
 
           <View style={styles.logSection}>
             <Text style={styles.sectionLabel}>Quick log</Text>
@@ -311,16 +360,13 @@ const styles = StyleSheet.create({
   noteDim: {
     opacity: 0.55,
   },
-  companionWrap: {
+  // Aurora persona illustration — center hero (WombBaby / HappyBaby).
+  illustrationWrap: {
     alignItems: 'center',
     paddingVertical: 4,
   },
-  statusRow: {
-    flexDirection: 'row',
-    gap: 8,
-    justifyContent: 'center',
-    flexWrap: 'wrap',
-  },
+  // 3 animated check-ins block.
+  checkinSection: { gap: 14 },
   pending: {
     backgroundColor: Cocuna.lavender,
     borderRadius: Radius.lg,
