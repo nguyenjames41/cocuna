@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Cocuna clinic — pastel green wellness, locked 2026-05-23.
+       Replaces the prior navy landing-page palette. */
+    --background: 60 30% 97%;        /* #FAFAF6 */
+    --foreground: 20 8% 13%;         /* #221F1D */
+
+    --card: 0 0% 100%;
+    --card-foreground: 20 8% 13%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 8% 13%;
+
+    --primary: 144 35% 65%;          /* #9DCBB0 mint deep */
+    --primary-foreground: 158 32% 18%;
+
+    --secondary: 144 38% 84%;        /* #C8E2D2 mint */
+    --secondary-foreground: 158 32% 18%;
+
+    --muted: 60 14% 94%;
+    --muted-foreground: 20 5% 42%;
+
+    --accent: 158 32% 28%;           /* sage for badges/links */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 354 70% 64%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 20 8% 90%;
+    --input: 20 8% 88%;
+    --ring: 144 35% 55%;
+
+    --radius: 0.75rem;
+
+    /* triage palette — matches mobile/DESIGN.md so the clinic + mother surfaces
+       speak the same triage language */
+    --triage-red: 354 70% 64%;
+    --triage-orange: 30 84% 63%;
+    --triage-yellow: 45 49% 58%;
+    --triage-green: 144 35% 63%;
+    --triage-gray: 215 13% 66%;
+  }
+
+  * { @apply border-border; }
+
+  html, body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "ss01", "cv11", "kern";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring) / 0.6);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background: hsl(var(--secondary));
+    color: hsl(var(--foreground));
+  }
+}
+
+@layer utilities {
+  .hairline {
+    box-shadow: inset 0 0 0 1px hsl(var(--border));
+  }
+  .tabular { font-variant-numeric: tabular-nums; }
+  .text-triage-red { color: hsl(var(--triage-red)); }
+  .text-triage-orange { color: hsl(var(--triage-orange)); }
+  .text-triage-yellow { color: hsl(var(--triage-yellow)); }
+  .text-triage-green { color: hsl(var(--triage-green)); }
+  .text-triage-gray { color: hsl(var(--triage-gray)); }
+  .bg-triage-red { background-color: hsl(var(--triage-red)); }
+  .bg-triage-orange { background-color: hsl(var(--triage-orange)); }
+  .bg-triage-yellow { background-color: hsl(var(--triage-yellow)); }
+  .bg-triage-green { background-color: hsl(var(--triage-green)); }
+  .bg-triage-gray { background-color: hsl(var(--triage-gray)); }
+}

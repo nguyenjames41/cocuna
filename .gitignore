@@ -1,0 +1,70 @@
+# Dependencies
+node_modules/
+.pnp.*
+.yarn/cache
+.yarn/install-state.gz
+
+# Build output
+.next/
+out/
+dist/
+build/
+.expo/
+*.tsbuildinfo
+next-env.d.ts
+
+# Env files — secrets live here, NEVER commit
+.env
+.env.local
+.env.*.local
+.env.production
+mobile/.env
+mobile/.env.local
+
+# Logs
+*.log
+.dev/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.expo/web-build/
+
+# Editor
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.DS_Store
+*.swp
+
+# OS
+Thumbs.db
+*.pem
+
+# Supabase
+supabase/.branches
+supabase/.temp
+supabase/.env
+
+# Vercel
+.vercel
+
+# EAS / Expo native projects
+mobile/ios/
+mobile/android/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+
+# gstack
+.gstack/
+
+# Claude Code — local user settings (project settings.json is fine to commit)
+.claude/settings.local.json
+mobile/.claude/settings.local.json
+
+# Local artifacts
+/tmp/cocuna-*
