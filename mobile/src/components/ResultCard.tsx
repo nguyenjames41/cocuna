@@ -19,6 +19,14 @@ const HEADLINE: Record<TriageLevel, string> = {
   gray: 'A human will review this',
 };
 
+const PROSE_LABEL: Record<TriageLevel, string> = {
+  red: 'Urgent / emergency',
+  orange: 'Needs clinical review',
+  yellow: 'Needs support',
+  green: 'Normal',
+  gray: 'A clinician will review this',
+};
+
 export function ResultCard({
   decision,
   onOpenCarePlan,
@@ -46,6 +54,8 @@ export function ResultCard({
         <View style={styles.headRow}>
           <View style={[styles.dot, { backgroundColor: color }]} />
           <Text style={styles.headLabel}>{TriageLabel[decision.level]}</Text>
+          <Text style={styles.headLabelDivider}>·</Text>
+          <Text style={styles.headLabelProse}>{PROSE_LABEL[decision.level]}</Text>
         </View>
 
         <Text style={styles.headline}>{HEADLINE[decision.level]}</Text>
@@ -137,6 +147,16 @@ const styles = StyleSheet.create({
     color: Cocuna.textMuted,
     textTransform: 'uppercase',
     letterSpacing: 1.6,
+  },
+  headLabelDivider: {
+    color: Cocuna.textFaint,
+    fontSize: 11,
+  },
+  headLabelProse: {
+    fontFamily: FontStack.bodyMedium,
+    fontSize: 11,
+    color: Cocuna.textMuted,
+    letterSpacing: 0.4,
   },
   headline: {
     fontFamily: FontStack.display,

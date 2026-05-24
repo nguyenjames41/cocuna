@@ -145,7 +145,15 @@ export default async function TriageQueue() {
             <span />
           </div>
 
-          {sorted.map((p) => (
+          {sorted.map((p) => {
+            const w = p.wearable;
+            const hrTone =
+              w.restingHr >= 90 ? "text-triage-red" : w.restingHr >= 80 ? "text-triage-orange" : "text-foreground";
+            const sleepTone =
+              w.sleepHours < 5 ? "text-triage-red" : w.sleepHours < 6.5 ? "text-triage-orange" : "text-foreground";
+            const stressTone =
+              w.stressScore >= 70 ? "text-triage-red" : w.stressScore >= 50 ? "text-triage-orange" : "text-foreground";
+            return (
             <Link
               key={p.id}
               href={`/patient/${p.id}`}
@@ -153,14 +161,24 @@ export default async function TriageQueue() {
             >
               <div className="flex items-center gap-3">
                 <TriageDot level={p.triage} />
-                <span className="font-medium text-foreground">{p.name}</span>
+                <div className="flex flex-col">
+                  <span className="font-medium text-foreground">{p.name}</span>
+                  <div className="mt-1 flex items-center gap-2 text-[11px] tabular text-muted-foreground">
+                    <span className={hrTone}>HR {w.restingHr}{w.restingHrTrend === "up" ? "↑" : w.restingHrTrend === "down" ? "↓" : ""}</span>
+                    <span className="text-muted-foreground/50">·</span>
+                    <span className={sleepTone}>{w.sleepHours.toFixed(1)}h sleep</span>
+                    <span className="text-muted-foreground/50">·</span>
+                    <span className={stressTone}>stress {w.stressScore}</span>
+                  </div>
+                </div>
               </div>
               <span className="self-center text-sm text-muted-foreground">{p.stageDetail}</span>
               <span className="self-center text-sm text-foreground">{p.triageReason}</span>
               <span className="self-center text-sm text-foreground">{p.recommendedAction}</span>
               <span className="self-center text-muted-foreground" aria-hidden>→</span>
             </Link>
-          ))}
+            );
+          })}
         </div>
 
         <p className="mt-6 text-xs text-muted-foreground">
